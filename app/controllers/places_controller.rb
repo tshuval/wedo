@@ -50,15 +50,20 @@ class PlacesController < ApplicationController
 
     # Create tags and link the place to them
     tags = params[:tags] || []
-
     tags.each do |t|
-      rec = Tag.find_or_create_by(name: to_tag(t), tag_type: 'tag')
+      tag = to_tag(t)
+      if tag.length >= 2
+        rec = Tag.find_or_create_by(name: tag, tag_type: 'tag')
+        # Link the place
+        rec.places << place
+      end
+    end
+    tag = to_tag(place.name)
+    if tag.length >= 2
+      rec = Tag.find_or_create_by(name: tag, tag_type: 'place')
       # Link the place
       rec.places << place
     end
-    rec = Tag.find_or_create_by(name: to_tag(place.name), tag_type: 'place')
-    # Link the place
-    rec.places << place
 
     render json: place, status: :created
   end
