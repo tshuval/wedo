@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_30_143020) do
+ActiveRecord::Schema.define(version: 2019_07_02_092147) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -25,20 +26,20 @@ ActiveRecord::Schema.define(version: 2019_06_30_143020) do
     t.float "lon"
     t.float "average_score", default: 0.0
     t.boolean "is_active", default: true
-    t.time "sun_open"
-    t.time "sun_close"
-    t.time "mon_open"
-    t.time "mon_close"
-    t.time "tue_open"
-    t.time "tue_close"
-    t.time "wed_open"
-    t.time "wed_close"
-    t.time "thu_open"
-    t.time "thu_close"
-    t.time "fri_open"
-    t.time "fri_close"
-    t.time "sat_open"
-    t.time "sat_close"
+    t.string "sun_open"
+    t.string "sun_close"
+    t.string "mon_open"
+    t.string "mon_close"
+    t.string "tue_open"
+    t.string "tue_close"
+    t.string "wed_open"
+    t.string "wed_close"
+    t.string "thu_open"
+    t.string "thu_close"
+    t.string "fri_open"
+    t.string "fri_close"
+    t.string "sat_open"
+    t.string "sat_close"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
