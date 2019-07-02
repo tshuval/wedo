@@ -3,7 +3,6 @@ def to_tag(s)
   s.gsub(/[^a-zA-Z0-9]+/, '').downcase
 end
 
-
 def time_to_int(t)
   # Converts string time to integer. Returns nil if not a valid time
   # e.g. '10:30' -> 10.5

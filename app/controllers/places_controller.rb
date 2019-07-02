@@ -1,11 +1,11 @@
 require 'helpers'
 
 class PlacesController < ApplicationController
-
   @@opening_hours = [
     :sun_open, :sun_close, :mon_open, :mon_close, :tue_open, :tue_close,
     :wed_open, :wed_close, :thu_open, :thu_close, :fri_open, :fri_close,
-    :sat_open, :sat_close]
+    :sat_open, :sat_close
+  ]
 
   # GET /places [optional 'q' and 'open_now']
   def index
@@ -13,8 +13,8 @@ class PlacesController < ApplicationController
     q = params[:q]
     if q
       # Sanitize the q param and find in 'tags' table, and then all matching places
-      #tag = Tag.find_by(name: to_tag(q))
-      places = Place.where(is_active: true).joins(:tags).where(tags: {name: to_tag(q)})
+      # tag = Tag.find_by(name: to_tag(q))
+      places = Place.where(is_active: true).joins(:tags).where(tags: { name: to_tag(q) })
     end
 
     if ["1", "true"].include? params[:open_now]
@@ -23,10 +23,10 @@ class PlacesController < ApplicationController
       # Day-of-week, first 3 letters
       day = Time.now.strftime('%A')[0...3].downcase
       # Remove places that have hours outside 'now'
-      places = places.select {|p| open_now?(p, now, day)}
+      places = places.select { |p| open_now?(p, now, day) }
     end
     # TODO: Return a short list of attributes
-    render json: {'places': places}
+    render json: { 'places': places }
   end
 
   # GET /places/:id
@@ -39,13 +39,13 @@ class PlacesController < ApplicationController
   def create
     # Sanitize the input
     if !validate_hours
-      return render json: {'message': 'Invalid hours'}, status: :bad_request
+      return render json: { 'message': 'Invalid hours' }, status: :bad_request
     end
 
     begin
       place = Place.create(place_params)
-    rescue Exception => e
-      return render json: {'message': e}, status: :bad_request
+    rescue => e
+      return render json: { 'message': e }, status: :bad_request
     end
 
     # Create tags and link the place to them
@@ -72,38 +72,38 @@ class PlacesController < ApplicationController
   def update
     # Sanitize the input
     if !validate_hours
-      return render json: {'message': 'Invalid hours'}, status: :bad_request
+      return render json: { 'message': 'Invalid hours' }, status: :bad_request
     end
 
     begin
       Place.find(params[:id]).update(place_params)
-    rescue Exception => e
-      return render json: {'message': e}, status: :bad_request
+    rescue => e
+      return render json: { 'message': e }, status: :bad_request
     end
   end
 
   private
+
   def place_params
     params.require(:place).permit(
       :name, :description, :address, :website, :phone, :email, :lat, :lon,
       :sun_open, :sun_close, :mon_open, :mon_close, :tue_open, :tue_close,
       :wed_open, :wed_close, :thu_open, :thu_close, :fri_open, :fri_close,
-      :sat_open, :sat_close)
+      :sat_open, :sat_close
+    )
   end
 
-  private
   def validate_hours
     @@opening_hours.each do |oh|
       return false if params[oh] and !time_to_int(params[oh])
     end
     return true
   end
-
 end
 
 def open_now?(place, now, day)
   now = time_to_int(now)
 
   place["#{day}_open"] and time_to_int(place["#{day}_open"]) <= now and
-  place["#{day}_close"] and time_to_int(place["#{day}_close"]) >= now
+    place["#{day}_close"] and time_to_int(place["#{day}_close"]) >= now
 end
