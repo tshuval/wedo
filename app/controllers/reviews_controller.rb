@@ -9,14 +9,14 @@ class ReviewsController < ApplicationController
   # POST /places/:place_id/reviews
   def create
     if Review.find_by(place: params[:place_id], username: params[:username])
-      return render json: {'message': 'User already reviewed this place'}, status: 400
+      return render json: {'message': 'User already reviewed this place'}, status: :bad_request
     end
 
     # Not found, so we are good to go
     # Validate the score (1-5)
     score = params[:score].to_i
     if score < 1 or score > 5
-      return render json: {'message': 'Invalid score. Must be 1-5'}
+      return render json: {'message': 'Invalid score. Must be 1-5'}, status: :bad_request
     end
 
     # Create the review and update the place's average score
@@ -30,7 +30,7 @@ class ReviewsController < ApplicationController
     # Update the place's average score
     Place.find(params[:place_id]).update(average_score: score)
 
-    render json: review
+    render json: review, status: :created
   end
 
 end
