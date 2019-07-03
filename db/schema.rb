@@ -13,9 +13,10 @@
 ActiveRecord::Schema.define(version: 2019_07_02_092147) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
-  create_table "places", force: :cascade do |t|
+  create_table "places", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
     t.text "description"
     t.string "address", null: false
@@ -45,22 +46,22 @@ ActiveRecord::Schema.define(version: 2019_07_02_092147) do
   end
 
   create_table "places_tags", id: false, force: :cascade do |t|
-    t.bigint "place_id", null: false
-    t.bigint "tag_id", null: false
+    t.uuid "place_id", null: false
+    t.uuid "tag_id", null: false
     t.index ["tag_id", "place_id"], name: "index_places_tags_on_tag_id_and_place_id"
   end
 
-  create_table "reviews", force: :cascade do |t|
+  create_table "reviews", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "username", null: false
     t.text "description"
     t.integer "score", null: false
-    t.bigint "place_id"
+    t.uuid "place_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["place_id"], name: "index_reviews_on_place_id"
   end
 
-  create_table "tags", force: :cascade do |t|
+  create_table "tags", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
     t.string "tag_type", default: "tag", null: false
     t.datetime "created_at", null: false
