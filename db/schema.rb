@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_02_092147) do
+ActiveRecord::Schema.define(version: 2019_07_04_092330) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -27,22 +27,9 @@ ActiveRecord::Schema.define(version: 2019_07_02_092147) do
     t.float "lon"
     t.float "average_score", default: 0.0
     t.boolean "is_active", default: true
-    t.string "sun_open"
-    t.string "sun_close"
-    t.string "mon_open"
-    t.string "mon_close"
-    t.string "tue_open"
-    t.string "tue_close"
-    t.string "wed_open"
-    t.string "wed_close"
-    t.string "thu_open"
-    t.string "thu_close"
-    t.string "fri_open"
-    t.string "fri_close"
-    t.string "sat_open"
-    t.string "sat_close"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.json "opening_hours"
   end
 
   create_table "places_tags", id: false, force: :cascade do |t|
