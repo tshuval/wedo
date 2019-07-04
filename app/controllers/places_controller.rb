@@ -38,6 +38,7 @@ class PlacesController < ApplicationController
   # POST /places
   def create
     # Sanitize the input
+    params[:opening_hours] ||= {}
     if !validate_hours
       return render json: { 'message': 'Invalid hours' }, status: :bad_request
     end
@@ -87,23 +88,28 @@ class PlacesController < ApplicationController
   def place_params
     params.require(:place).permit(
       :name, :description, :address, :website, :phone, :email, :lat, :lon,
-      :sun_open, :sun_close, :mon_open, :mon_close, :tue_open, :tue_close,
-      :wed_open, :wed_close, :thu_open, :thu_close, :fri_open, :fri_close,
-      :sat_open, :sat_close
+      opening_hours: @@opening_hours
     )
   end
 
   def validate_hours
     @@opening_hours.each do |oh|
-      return false if params[oh] and !time_to_int(params[oh])
+      return false if params[:opening_hours][oh] and !time_to_int(params[:opening_hours][oh])
     end
     return true
   end
 end
 
 def open_now?(place, now, day)
-  now = time_to_int(now)
+  oh = place[:opening_hours] || {}
+  return false if not oh["#{day}_open"] or not oh["#{day}_close"]
 
-  place["#{day}_open"] and time_to_int(place["#{day}_open"]) <= now and
-    place["#{day}_close"] and time_to_int(place["#{day}_close"]) >= now
+  now = time_to_int(now)
+  op = time_to_int(oh["#{day}_open"])
+  cl = time_to_int(oh["#{day}_close"])
+  return true if now >= op and now <= cl
+  # BUG ^^^
+  # The above condition is true only if the close time is before midnight
+  # If it's after midnight, this will return false.
+  # Another issue is if 'now' is after midnight, so it's esentially "tomorrrow"
 end

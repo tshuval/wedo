@@ -11,7 +11,7 @@ def time_to_int(t)
     h = h.to_i
     m = m.to_i
     if h and m
-      if (h == 24 and m == 0) or (h >= 0 and h <= 23 and m >= 0 and m <= 59)
+      if h >= 0 and h <= 23 and m >= 0 and m <= 59
         return h + m / 60.0
       end
     end
