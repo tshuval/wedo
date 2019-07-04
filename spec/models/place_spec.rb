@@ -13,22 +13,9 @@
 #  lon           :float
 #  average_score :float            default(0.0)
 #  is_active     :boolean          default(TRUE)
-#  sun_open      :string
-#  sun_close     :string
-#  mon_open      :string
-#  mon_close     :string
-#  tue_open      :string
-#  tue_close     :string
-#  wed_open      :string
-#  wed_close     :string
-#  thu_open      :string
-#  thu_close     :string
-#  fri_open      :string
-#  fri_close     :string
-#  sat_open      :string
-#  sat_close     :string
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
+#  opening_hours :json
 #
 
 require 'rails_helper'
