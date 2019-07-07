@@ -11,12 +11,12 @@ class PlacesController < ApplicationController
 
   # GET /places [optional 'q' and 'open_now']
   def index
-    places = Place.where(is_active: true)
+    places = Place.active
     q = params[:q]
     if q
       # Sanitize the q param and find in 'tags' table, and then all matching places
       # tag = Tag.find_by(name: to_tag(q))
-      places = Place.where(is_active: true).joins(:tags).where(tags: { name: to_tag(q) })
+      places = Place.active.joins(:tags).where(tags: { name: to_tag(q) })
     end
 
     if %w(1 true).include? params[:open_now]
@@ -29,7 +29,7 @@ class PlacesController < ApplicationController
   # GET /places/:id
   def show
     # Return the place with 5 recent reviews
-    place = Place.eager_load(:reviews).order(created_at: :desc).limit(5).find(params[:id])
+    place = Place.active.eager_load(:reviews).order(created_at: :desc).limit(5).find(params[:id])
     render json: { 'place': place, 'latest_reviews': place.reviews }
   end
 
@@ -71,7 +71,7 @@ class PlacesController < ApplicationController
     return render json: { 'message': 'Invalid hours' }, status: :bad_request unless validate_hours
 
     begin
-      Place.find(params[:id]).update(place_params)
+      Place.active.find(params[:id]).update(place_params)
     rescue StandardError => e
       return render json: { 'message': e }, status: :bad_request
     end
