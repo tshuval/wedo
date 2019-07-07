@@ -22,12 +22,9 @@ class ReviewsController < ApplicationController
     review = Review.create!(params.permit(:username, :description, :score, :place_id))
 
     # Average reviews of last 6 months
-    score = 0.0
-    reviews = Review.where(place: params[:place_id], created_at: 6.months.ago..Time.now).order(created_at: :desc)
-    reviews.find_each { |r| score += r.score }
-    score /= reviews.length
+    average_score = Float(Review.where(place: params[:place_id], created_at: 6.months.ago..Time.now).order(created_at: :desc).average(:score))
     # Update the place's average score
-    Place.find(params[:place_id]).update(average_score: score)
+    Place.find(params[:place_id]).update(average_score: average_score)
 
     render json: review, status: :created
   end

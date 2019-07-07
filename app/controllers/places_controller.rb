@@ -19,7 +19,7 @@ class PlacesController < ApplicationController
       places = Place.active.joins(:tags).where(tags: { name: to_tag(q) })
     end
 
-    if %w(1 true).include? params[:open_now]
+    if params.key?(:open_now)
       now = Time.now.utc + (params[:tz_offset] || 0).to_i # This creates a UTC timezone that is adjusted to the local clock
       places = places.select { |p| open_now?(p, now, now) || open_now?(p, now, now - 1.day) }
     end
@@ -107,7 +107,7 @@ class PlacesController < ApplicationController
       to = Time.new(place_now.year, place_now.month, place_now.day, h2.to_i, m2.to_i, 0, '+00:00')
       if to < from
         # Past midnight, so add another day
-        to += 60 * 60 * 24
+        to += 1.day.seconds
       end
       # Check if 'now' is in range
       user_now >= from && user_now <= to
