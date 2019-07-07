@@ -18,12 +18,8 @@ class PlacesController < ApplicationController
     end
 
     if ["1", "true"].include? params[:open_now]
-      # User wants only places that are open now
-      now = Time.now.utc.strftime("%H:%M")
-      # Day-of-week, first 3 letters
-      day = Time.now.strftime('%A')[0...3].downcase
-      # Remove places that have hours outside 'now'
-      places = places.select { |p| open_now?(p, now, day) }
+      now = Time.now.utc + (params[:tz_offset] || 0).to_i  # This creates a UTC timezone that is adjusted to the local clock
+      places = places.select { |p| open_now?(p, now, now) or open_now?(p, now, now-1.day)}
     end
     # TODO: Return a short list of attributes
     render json: { 'places': places }
@@ -98,18 +94,25 @@ class PlacesController < ApplicationController
     end
     return true
   end
-end
 
-def open_now?(place, now, day)
-  oh = place[:opening_hours] || {}
-  return false if not oh["#{day}_open"] or not oh["#{day}_close"]
+  def open_now?(place, user_now, place_now)
+    # This method returns true if the user_now (time object) is between the
+    # open and close hours of the place. The place_now determines the place's
+    # day to match the hours.
+    day = place_now.strftime('%A')[0...3].downcase
+    oh = place[:opening_hours] || {}
 
-  now = time_to_int(now)
-  op = time_to_int(oh["#{day}_open"])
-  cl = time_to_int(oh["#{day}_close"])
-  return true if now >= op and now <= cl
-  # BUG ^^^
-  # The above condition is true only if the close time is before midnight
-  # If it's after midnight, this will return false.
-  # Another issue is if 'now' is after midnight, so it's esentially "tomorrrow"
+    if oh["#{day}_open"] and oh["#{day}_close"]
+      h1, m1 = oh["#{day}_open"].split(':')
+      h2, m2 = oh["#{day}_close"].split(':')
+      from = Time.new(place_now.year, place_now.month, place_now.day, h1.to_i, m1.to_i, 0, '+00:00')
+      to = Time.new(place_now.year, place_now.month, place_now.day, h2.to_i, m2.to_i, 0, '+00:00')
+      if to < from
+        # Past midnight, so add another day
+        to += 60 * 60 * 24
+      end
+      # Check if 'now' is in range
+      user_now >= from && user_now <= to
+    end
+  end
 end
