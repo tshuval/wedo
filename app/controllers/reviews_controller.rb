@@ -14,9 +14,7 @@ class ReviewsController < ApplicationController
     # Not found, so we are good to go
     # Validate the score (1-5)
     score = params[:score].to_i
-    if score < 1 or score > 5
-      return render json: { 'message': 'Invalid score. Must be 1-5' }, status: :bad_request
-    end
+    return render json: { 'message': 'Invalid score. Must be 1-5' }, status: :bad_request if (score < 1) || (score > 5)
 
     # Create the review and update the place's average score
     review = Review.create!(params.permit(:username, :description, :score, :place_id))

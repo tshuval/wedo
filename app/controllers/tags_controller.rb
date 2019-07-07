@@ -7,7 +7,7 @@ class TagsController < ApplicationController
     if !q || q.length < 2
       render json: { tags: [] }
     else
-      tags = Tag.select([:id, :name, :tag_type]).where("name LIKE ?", "%#{to_tag(q)}%").distinct
+      tags = Tag.select(%i(id name tag_type)).where('name LIKE ?', "%#{to_tag(q)}%").distinct
       render json: { tags: tags }
     end
   end

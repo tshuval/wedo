@@ -7,14 +7,12 @@ def time_to_int(t)
   # Converts string time to integer. Returns nil if not a valid time
   # e.g. '10:30' -> 10.5
   h, m = t.split(':')
-  if h and m and h.match(/^(\d)+$/) and m.match(/^(\d)+$/)
+  if h && m && h.match(/^(\d)+$/) && m.match(/^(\d)+$/)
     h = h.to_i
     m = m.to_i
-    if h and m
-      if h >= 0 and h <= 23 and m >= 0 and m <= 59
-        return h + m / 60.0
-      end
+    if h && m
+      return h + m / 60.0 if (h >= 0) && (h <= 23) && (m >= 0) && (m <= 59)
     end
   end
-  return nil
+  nil
 end
