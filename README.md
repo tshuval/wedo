@@ -1,24 +1,11 @@
-# README
+# WeDo
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+The idea is to provide an interactive map of places of interest and things to do in the Tel Aviv area, for visitors.
 
-Things you may want to cover:
+## Features
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* A baseline list of places will be fetched from Google Places API.
+* Places can be created and edited by users.
+* Places will be tagged and reviewed by users.
+* Users can search for places based on their name or tags.
+* Autocomplete search for tags and places.
