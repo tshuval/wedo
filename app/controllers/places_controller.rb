@@ -21,14 +21,14 @@ class PlacesController < ApplicationController
       now = Time.now.utc + (params[:tz_offset] || 0).to_i  # This creates a UTC timezone that is adjusted to the local clock
       places = places.select { |p| open_now?(p, now, now) or open_now?(p, now, now-1.day)}
     end
-    # TODO: Return a short list of attributes
-    render json: { 'places': places }
+    render json: { 'places': places.map { |p| p.short_data } }
   end
 
   # GET /places/:id
   def show
-    place = Place.find(params[:id])
-    render json: place
+    # Return the place with 5 recent reviews
+    place = Place.eager_load(:reviews).order(created_at: :desc).limit(5).find(params[:id])
+    render json: {'place': place, 'latest_reviews': place.reviews}
   end
 
   # POST /places

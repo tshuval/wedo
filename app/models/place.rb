@@ -21,4 +21,14 @@
 class Place < ApplicationRecord
   has_and_belongs_to_many :tags
   has_many :reviews
+
+  def short_data
+    return {
+      id: id,
+      name: name,
+      description: description,
+      address: address,
+      average_score: average_score
+    }
+  end
 end

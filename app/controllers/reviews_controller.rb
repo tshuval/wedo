@@ -1,7 +1,7 @@
 class ReviewsController < ApplicationController
   # GET /places/:place_id/reviews
   def index
-    reviews = Review.where(place: params[:place_id]).order(created_at: :desc).limit(10)
+    reviews = Review.where(place: params[:place_id]).order(created_at: :desc).limit(100)
     render json: reviews
   end
 
