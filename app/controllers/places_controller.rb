@@ -29,8 +29,9 @@ class PlacesController < ApplicationController
   # GET /places/:id
   def show
     # Return the place with 5 recent reviews
-    place = Place.active.eager_load(:reviews).order(created_at: :desc).limit(5).find(params[:id])
-    render json: { 'place': place, 'latest_reviews': place.reviews }
+    place = Place.active.find(params[:id])
+    latest_reviews = Review.where(place: params[:id]).order(created_at: :desc).limit(5)
+    render json: { 'place': place, 'latest_reviews': latest_reviews }
   end
 
   # POST /places
