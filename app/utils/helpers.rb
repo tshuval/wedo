@@ -7,12 +7,10 @@ end
 
 def is_time?(t)
   # Returns true if 't' is in the form "10:00"
-  begin
-    Time.strptime(t, "%R")
-    true
-  rescue ArgumentError
-    false
-  end
+  Time.strptime(t, '%R')
+  true
+rescue ArgumentError
+  false
 end
 
 def open_now?(place, user_now, place_now)

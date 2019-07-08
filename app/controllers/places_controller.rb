@@ -93,5 +93,4 @@ class PlacesController < ApplicationController
     end
     true
   end
-
 end
