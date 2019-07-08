@@ -89,7 +89,7 @@ class PlacesController < ApplicationController
 
   def validate_hours
     @@opening_hours.each do |oh|
-      return false if params[:opening_hours][oh] && !time_to_int(params[:opening_hours][oh])
+      return false if params[:opening_hours][oh] && !is_time?(params[:opening_hours][oh])
     end
     true
   end
