@@ -3,7 +3,7 @@
 require 'helpers'
 
 class PlacesController < ApplicationController
-  @@opening_hours = %i(
+  @@opening_hours = %w(
     sun_open sun_close mon_open mon_close tue_open tue_close
     wed_open wed_close thu_open thu_close fri_open fri_close
     sat_open sat_close
@@ -21,7 +21,7 @@ class PlacesController < ApplicationController
 
     if params.key?(:open_now)
       now = Time.now.utc + (params[:tz_offset] || 0).to_i # This creates a UTC timezone that is adjusted to the local clock
-      places = places.select { |p| open_now?(p, now, now) || open_now?(p, now, now - 1.day) }
+      places = places.select { |p| open_now?(p.opening_hours, now, now) || open_now?(p.opening_hours, now, now - 1.day) }
     end
     render json: { 'places': places.map(&:short_data) }
   end
@@ -31,7 +31,8 @@ class PlacesController < ApplicationController
     # Return the place with 5 recent reviews
     place = Place.active.find(params[:id])
     latest_reviews = Review.where(place: params[:id]).order(created_at: :desc).limit(5)
-    render json: { 'place': place, 'latest_reviews': latest_reviews }
+    render json: { 'place': place, 'latest_reviews': latest_reviews,
+                   'tags': place.tags.map { |t| t.name } }
   end
 
   # POST /places
@@ -40,11 +41,7 @@ class PlacesController < ApplicationController
     params[:opening_hours] ||= {}
     return render json: { 'message': 'Invalid hours' }, status: :bad_request unless validate_hours
 
-    begin
-      place = Place.create(place_params)
-    rescue StandardError => e
-      return render json: { 'message': e }, status: :bad_request
-    end
+    place = Place.create!(place_params)
 
     # Create tags and link the place to them
     tags = params[:tags] || []
@@ -69,6 +66,7 @@ class PlacesController < ApplicationController
   # PUT /places/:id
   def update
     # Sanitize the input
+    params[:opening_hours] ||= {}
     return render json: { 'message': 'Invalid hours' }, status: :bad_request unless validate_hours
 
     begin
@@ -81,16 +79,13 @@ class PlacesController < ApplicationController
   private
 
   def place_params
-    params.require(:place).permit(
+    params.permit(
       :name, :description, :address, :website, :phone, :email, :lat, :lon,
       opening_hours: @@opening_hours
     )
   end
 
   def validate_hours
-    @@opening_hours.each do |oh|
-      return false if params[:opening_hours][oh] && !is_time?(params[:opening_hours][oh])
-    end
-    true
+    params[:opening_hours].to_unsafe_h.all? { |k, v| is_time?(v) && @@opening_hours.include?(k) }
   end
 end

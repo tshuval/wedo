@@ -13,12 +13,13 @@ rescue ArgumentError
   false
 end
 
-def open_now?(place, user_now, place_now)
+def open_now?(opening_hours, user_now, place_now)
   # This method returns true if the user_now (time object) is between the
   # open and close hours of the place. The place_now determines the place's
   # day to match the hours.
+  # opening_hours is a hash of hours of a place
   day = place_now.strftime('%A')[0...3].downcase
-  oh = place[:opening_hours] || {}
+  oh = opening_hours || {}
 
   if oh["#{day}_open"] && oh["#{day}_close"]
     h1, m1 = oh["#{day}_open"].split(':')
@@ -31,5 +32,7 @@ def open_now?(place, user_now, place_now)
     end
     # Check if 'now' is in range
     user_now >= from && user_now <= to
+  else
+    false
   end
 end
