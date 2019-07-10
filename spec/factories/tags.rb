@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-TAG_LIST = [:beer, :beergarden, :beersheva, :food, :fun, :restuarant, :bar, :barbados, :eat, :lunch]
+TAG_LIST = %i(beer beergarden beersheva food fun restuarant bar barbados eat lunch).freeze
 
 FactoryBot.define do
   factory :tag do

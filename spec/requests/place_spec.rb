@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe 'Places API', type: :request do
   # initialize test data
   let!(:places) { create_list(:place, 10) }
-  let(:first_place) {places.first}
+  let(:first_place) { places.first }
   let(:place_id) { places.first.id }
   let(:place_name) { places.first.name.downcase }
 
@@ -98,9 +98,11 @@ RSpec.describe 'Places API', type: :request do
   # Test suite for POST /places
   describe 'POST /places' do
     # valid payload
-    let(:valid_attributes) { { name: 'Beer Garden', address: 'Somewhere',
-                               opening_hours: {'sun_open': '10:00', 'sun_close': '20:00'} ,
-                               tags: ['tag1', 'TAG2', 'x']} }
+    let(:valid_attributes) do
+      { name: 'Beer Garden', address: 'Somewhere',
+        opening_hours: { 'sun_open': '10:00', 'sun_close': '20:00' },
+        tags: %w(tag1 TAG2 x) }
+    end
 
     context 'when the request is valid' do
       before { post '/places', params:  valid_attributes }
@@ -112,7 +114,7 @@ RSpec.describe 'Places API', type: :request do
         expect(json['opening_hours']['sun_close']).to eq('20:00')
 
         # Validate tag creation/association
-        tags = Place.find(json['id']).tags.map { |t| t.name }
+        tags = Place.find(json['id']).tags.map(&:name)
         expect(tags.length).to eq(3)
         expect(tags).to include('tag1', 'tag2', 'beergarden')
       end
@@ -149,7 +151,7 @@ RSpec.describe 'Places API', type: :request do
     end
 
     context 'when the opening hours are invalid' do
-      before { post '/places', params: { name: 'Test', address: 'Foobar', opening_hours: {'sun_open': '30:00'}} }
+      before { post '/places', params: { name: 'Test', address: 'Foobar', opening_hours: { 'sun_open': '30:00' } } }
 
       it 'returns status code 400' do
         expect(response).to have_http_status(400)
@@ -160,19 +162,18 @@ RSpec.describe 'Places API', type: :request do
           .to match(/Invalid hours/)
       end
 
-    context 'when the opening hours is invalid' do
-      before { post '/places', params: { name: 'Test', address: 'Foobar', opening_hours: {'wtf_open': '10:00'}} }
+      context 'when the opening hours is invalid' do
+        before { post '/places', params: { name: 'Test', address: 'Foobar', opening_hours: { 'wtf_open': '10:00' } } }
 
-      it 'returns status code 400' do
-        expect(response).to have_http_status(400)
+        it 'returns status code 400' do
+          expect(response).to have_http_status(400)
+        end
+
+        it 'returns a validation failure message' do
+          expect(response.body)
+            .to match(/Invalid hours/)
+        end
       end
-
-      it 'returns a validation failure message' do
-        expect(response.body)
-          .to match(/Invalid hours/)
-      end
-    end
-
     end
   end
 

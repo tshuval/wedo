@@ -27,7 +27,7 @@ RSpec.describe 'Reviews API', type: :request do
   # Test suite for POST /reviews
   describe 'POST /places/:id/reviews' do
     # valid payload
-    let(:valid_attributes) { { description: 'woohoo', username: 'someone', score: 1} }
+    let(:valid_attributes) { { description: 'woohoo', username: 'someone', score: 1 } }
 
     context 'when the request is valid' do
       before { post "/places/#{place_id}/reviews", params: valid_attributes }
@@ -109,7 +109,7 @@ RSpec.describe 'Reviews API', type: :request do
     end
 
     context 'when the place does not exist' do
-      before { post "/places/INVALID-PLACE-ID/reviews", params: { description: 'woohoo', username: 'someone' , score: 3} }
+      before { post '/places/INVALID-PLACE-ID/reviews', params: { description: 'woohoo', username: 'someone', score: 3 } }
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)

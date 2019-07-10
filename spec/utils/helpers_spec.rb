@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # frozen_string_literals: true
 
 require 'rails_helper'
@@ -29,40 +31,40 @@ RSpec.describe 'open_now?' do
   end
 
   it 'returns false when opening_hours are outside' do
-    oh = {'wed_open': '10:00', 'wed_close': '15:30'}
+    oh = { 'wed_open': '10:00', 'wed_close': '15:30' }
     expect(open_now?(oh, user_day, user_day)).to be(false)
   end
 
   it 'returns false when opening_hours are outside 2' do
-    oh = {'wed_open': '10:00', 'wed_close': '04:30'}
+    oh = { 'wed_open': '10:00', 'wed_close': '04:30' }
     expect(open_now?(oh, user_day, user_day)).to be(false)
   end
 
   it 'returns false when opening_hours are outside (user night)' do
-    oh = {'wed_open': '10:00', 'wed_close': '15:30'}
+    oh = { 'wed_open': '10:00', 'wed_close': '15:30' }
     expect(open_now?(oh, user_night, user_night)).to be(false)
   end
 
   it 'returns false when opening_hours are outside 2  (user night)' do
-    oh = {'wed_open': '10:00', 'wed_close': '04:30'}
+    oh = { 'wed_open': '10:00', 'wed_close': '04:30' }
     expect(open_now?(oh, user_night, user_night)).to be(false)
   end
 
   # True cases
   it 'returns true when opening_hours are containing' do
-    oh = {'wed_open': '10:00', 'wed_close': '17:30'}.with_indifferent_access
+    oh = { 'wed_open': '10:00', 'wed_close': '17:30' }.with_indifferent_access
     expect(open_now?(oh, user_day, user_day)).to be(true)
   end
 
   it 'returns true when opening_hours are containing (night)' do
     # User is already on Thursday, 2AM, and the place is open from Wednesday
     # until after Thursday midnight, so the second test (time-1.day) shuold pass
-    oh = {'wed_open': '10:00', 'wed_close': '04:30'}.with_indifferent_access
-    expect(open_now?(oh, user_night, user_night-1.day)).to be(true)
+    oh = { 'wed_open': '10:00', 'wed_close': '04:30' }.with_indifferent_access
+    expect(open_now?(oh, user_night, user_night - 1.day)).to be(true)
   end
 
   it 'returns true when opening_hours are containing 2 (night)' do
-    oh = {'thu_open': '01:00', 'thu_close': '04:30'}.with_indifferent_access
+    oh = { 'thu_open': '01:00', 'thu_close': '04:30' }.with_indifferent_access
     expect(open_now?(oh, user_night, user_night)).to be(true)
   end
 end

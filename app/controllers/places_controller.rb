@@ -32,7 +32,7 @@ class PlacesController < ApplicationController
     place = Place.active.find(params[:id])
     latest_reviews = Review.where(place: params[:id]).order(created_at: :desc).limit(5)
     render json: { 'place': place, 'latest_reviews': latest_reviews,
-                   'tags': place.tags.map { |t| t.name } }
+                   'tags': place.tags.map(&:name) }
   end
 
   # POST /places
