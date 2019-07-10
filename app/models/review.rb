@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: reviews
@@ -12,7 +14,7 @@
 #
 
 class Review < ApplicationRecord
-  validates :score, numericality: { only_integer: true, greater_than: 0, less_than: 6, message: 'Review score must be 1-5' }
+  validates :score, numericality: { only_integer: true, greater_than: 0, less_than: 6, message: 'must be between 1-5' }
 
   belongs_to :place
 end

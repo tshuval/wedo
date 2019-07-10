@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: places
@@ -21,4 +23,16 @@
 class Place < ApplicationRecord
   has_and_belongs_to_many :tags
   has_many :reviews
+
+  scope :active, -> { where(is_active: true) }
+
+  def short_data
+    {
+      id: id,
+      name: name,
+      description: description,
+      address: address,
+      average_score: average_score,
+    }
+  end
 end
