@@ -21,7 +21,7 @@ RSpec.describe 'Places API', type: :request do
     end
 
     it 'returns status code 200' do
-      expect(response).to have_http_status(200)
+      expect(response).to have_http_status(:ok)
     end
   end
 
@@ -37,7 +37,7 @@ RSpec.describe 'Places API', type: :request do
   #     end
 
   #     it 'returns status code 200' do
-  #       expect(response).to have_http_status(200)
+  #       expect(response).to have_http_status(:ok)
   #     end
   #   end
 
@@ -49,7 +49,7 @@ RSpec.describe 'Places API', type: :request do
   #     end
 
   #     it 'returns status code 200' do
-  #       expect(response).to have_http_status(200)
+  #       expect(response).to have_http_status(:ok)
   #     end
   #   end
   # end
@@ -60,8 +60,8 @@ RSpec.describe 'Places API', type: :request do
       # Create a tag for this place
       first_place.tags << Tag.create!(name: 'tag1')
       # Create a review for this place
-      Review.create!(username: 'me', description: 'nice', 'score': 4, place: first_place)
-      Review.create!(username: 'you', description: 'not nice', 'score': 2, place: first_place)
+      FactoryBot.create(:review, place: first_place)
+      FactoryBot.create(:review, place: first_place)
 
       get "/places/#{place_id}"
     end
@@ -78,7 +78,7 @@ RSpec.describe 'Places API', type: :request do
       end
 
       it 'returns status code 200' do
-        expect(response).to have_http_status(200)
+        expect(response).to have_http_status(:ok)
       end
     end
 
@@ -86,7 +86,7 @@ RSpec.describe 'Places API', type: :request do
       let(:place_id) { 100 }
 
       it 'returns status code 404' do
-        expect(response).to have_http_status(404)
+        expect(response).to have_http_status(:not_found)
       end
 
       it 'returns a not found message' do
@@ -120,7 +120,7 @@ RSpec.describe 'Places API', type: :request do
       end
 
       it 'returns status code 201' do
-        expect(response).to have_http_status(201)
+        expect(response).to have_http_status(:created)
       end
     end
 
@@ -128,7 +128,7 @@ RSpec.describe 'Places API', type: :request do
       before { post '/places', params: { name: 'Foobar' } }
 
       it 'returns status code 422' do
-        expect(response).to have_http_status(422)
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'returns a validation failure message' do
@@ -141,7 +141,7 @@ RSpec.describe 'Places API', type: :request do
       before { post '/places', params: { address: 'Foobar' } }
 
       it 'returns status code 422' do
-        expect(response).to have_http_status(422)
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'returns a validation failure message' do
@@ -154,7 +154,7 @@ RSpec.describe 'Places API', type: :request do
       before { post '/places', params: { name: 'Test', address: 'Foobar', opening_hours: { 'sun_open': '30:00' } } }
 
       it 'returns status code 400' do
-        expect(response).to have_http_status(400)
+        expect(response).to have_http_status(:bad_request)
       end
 
       it 'returns a validation failure message' do
@@ -166,7 +166,7 @@ RSpec.describe 'Places API', type: :request do
         before { post '/places', params: { name: 'Test', address: 'Foobar', opening_hours: { 'wtf_open': '10:00' } } }
 
         it 'returns status code 400' do
-          expect(response).to have_http_status(400)
+          expect(response).to have_http_status(:bad_request)
         end
 
         it 'returns a validation failure message' do
@@ -189,7 +189,7 @@ RSpec.describe 'Places API', type: :request do
       end
 
       it 'returns status code 204' do
-        expect(response).to have_http_status(204)
+        expect(response).to have_http_status(:no_content)
       end
     end
   end

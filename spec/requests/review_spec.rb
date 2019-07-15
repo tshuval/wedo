@@ -20,7 +20,7 @@ RSpec.describe 'Reviews API', type: :request do
     end
 
     it 'returns status code 200' do
-      expect(response).to have_http_status(200)
+      expect(response).to have_http_status(:ok)
     end
   end
 
@@ -38,7 +38,7 @@ RSpec.describe 'Reviews API', type: :request do
       end
 
       it 'returns status code 201' do
-        expect(response).to have_http_status(201)
+        expect(response).to have_http_status(:created)
       end
     end
 
@@ -46,7 +46,7 @@ RSpec.describe 'Reviews API', type: :request do
       before { post "/places/#{place_id}/reviews", params: { description: 'woohoo', score: 4 } }
 
       it 'returns status code 422' do
-        expect(response).to have_http_status(422)
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'returns a validation failure message' do
@@ -60,7 +60,7 @@ RSpec.describe 'Reviews API', type: :request do
       before { post "/places/#{place_id}/reviews", params: { description: 'woohoo', username: username, score: 4 } }
 
       it 'returns status code 400' do
-        expect(response).to have_http_status(400)
+        expect(response).to have_http_status(:bad_request)
       end
 
       it 'returns a validation failure message' do
@@ -73,7 +73,7 @@ RSpec.describe 'Reviews API', type: :request do
       before { post "/places/#{place_id}/reviews", params: { description: 'woohoo', username: 'someone', score: 6 } }
 
       it 'returns status code 422' do
-        expect(response).to have_http_status(422)
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'returns a validation failure message' do
@@ -86,7 +86,7 @@ RSpec.describe 'Reviews API', type: :request do
       before { post "/places/#{place_id}/reviews", params: { description: 'woohoo', username: 'someone', score: 0 } }
 
       it 'returns status code 422' do
-        expect(response).to have_http_status(422)
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'returns a validation failure message' do
@@ -99,7 +99,7 @@ RSpec.describe 'Reviews API', type: :request do
       before { post "/places/#{place_id}/reviews", params: { description: 'woohoo', username: 'someone' } }
 
       it 'returns status code 422' do
-        expect(response).to have_http_status(422)
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'returns a validation failure message' do
@@ -112,7 +112,7 @@ RSpec.describe 'Reviews API', type: :request do
       before { post '/places/INVALID-PLACE-ID/reviews', params: { description: 'woohoo', username: 'someone', score: 3 } }
 
       it 'returns status code 422' do
-        expect(response).to have_http_status(422)
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'returns a validation failure message' do

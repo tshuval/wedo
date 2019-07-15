@@ -18,12 +18,12 @@ def open_now?(opening_hours, user_now, place_now)
   # open and close hours of the place. The place_now determines the place's
   # day to match the hours.
   # opening_hours is a hash of hours of a place
-  day = place_now.strftime('%A')[0...3].downcase
-  oh = opening_hours || {}
+  day = place_now.strftime('%a').downcase
+  hours = opening_hours || {}
 
-  if oh["#{day}_open"] && oh["#{day}_close"]
-    h1, m1 = oh["#{day}_open"].split(':')
-    h2, m2 = oh["#{day}_close"].split(':')
+  if hours["#{day}_open"] && hours["#{day}_close"]
+    h1, m1 = hours["#{day}_open"].split(':')
+    h2, m2 = hours["#{day}_close"].split(':')
     from = Time.new(place_now.year, place_now.month, place_now.day, h1.to_i, m1.to_i, 0, '+00:00')
     to = Time.new(place_now.year, place_now.month, place_now.day, h2.to_i, m2.to_i, 0, '+00:00')
     if to < from
@@ -31,7 +31,7 @@ def open_now?(opening_hours, user_now, place_now)
       to += 1.day.seconds
     end
     # Check if 'now' is in range
-    user_now >= from && user_now <= to
+    (from..to).include? user_now
   else
     false
   end
