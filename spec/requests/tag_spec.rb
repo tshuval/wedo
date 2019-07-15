@@ -2,13 +2,18 @@
 
 require 'rails_helper'
 
+TAG_LIST = %i(beer beergarden beersheva food fun restuarant bar barbados eat lunch)
+
 RSpec.describe 'Tags API', type: :request do
-  # initialize test data
-  let!(:tags) { create_list(:tag, 10) }
+
   # Test suite for GET /tags
   describe 'GET /tags?q=be' do
+    # initialize test data
     # make HTTP get request before each example
-    before { get '/tags?q=be' }
+    before do
+      TAG_LIST.each {|tag| Tag.create(name: tag, tag_type: 'tag')}
+      get '/tags?q=be'
+    end
 
     it 'returns tags' do
       # Note `json` is a custom helper to parse JSON responses
@@ -22,6 +27,7 @@ RSpec.describe 'Tags API', type: :request do
   end
 
   describe 'GET /tags?q=no_match' do
+    let(:tags) { create_list(:tag, 10) }
     # make HTTP get request before each example
     before { get '/tags' }
 
@@ -36,6 +42,7 @@ RSpec.describe 'Tags API', type: :request do
   end
 
   describe 'GET /tags' do
+    let(:tags) { create_list(:tag, 10) }
     # make HTTP get request before each example
     before { get '/tags' }
 
