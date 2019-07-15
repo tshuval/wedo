@@ -1,19 +1,31 @@
+// @flow
 import React from 'react';
 
 import { storiesOf } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
-import { linkTo } from '@storybook/addon-links';
+import { withKnobs, text } from '@storybook/addon-knobs';
 
-import { Button, Welcome } from '@storybook/react/demo';
+import { Checkbox } from '../components/Checkbox'
+import { ACard } from '../components/Card'
+import { SearchBox } from '../components/SearchBox'
 
-storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')} />);
+import 'bootstrap/dist/css/bootstrap.css';
 
-storiesOf('Button', module)
-  .add('with text', () => <Button onClick={action('clicked')}>Hello Button</Button>)
-  .add('with some emoji', () => (
-    <Button onClick={action('clicked')}>
-      <span role="img" aria-label="so cool">
-        😀 😎 👍 💯
-      </span>
-    </Button>
-  ));
+export const card = {
+  id: 'AAAA-BBBB',
+  title: 'Beer Garden',
+  description: 'Drink beer in the garden',
+  address: '1 Herzl st.',
+  score: 4,
+  website: 'http://www.example.com'
+}
+
+const stories_cb = storiesOf('Checkbox', module);
+stories_cb.addDecorator(withKnobs);
+
+stories_cb.add('basic', () => <Checkbox message={text('Label', 'Only places that are open now')}></Checkbox>);
+
+storiesOf('SearchBox', module)
+  .add('basic', () => <SearchBox placeholder_text={"Start typing..."}></SearchBox>);
+
+storiesOf('ACard', module)
+  .add('basic', () => <ACard card={card}></ACard>);
