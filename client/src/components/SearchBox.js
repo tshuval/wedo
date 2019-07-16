@@ -4,7 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 
 type Props = {
-  placeholder_text: string
+  placeholderText: string
 };
 
 type State = {
@@ -14,7 +14,7 @@ type State = {
 export class SearchBox extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = {value: ''}
+    this.state = {value: ''};
     this.handleChange = this.handleChange.bind(this);
   }
   timer: TimeoutID;
@@ -25,7 +25,7 @@ export class SearchBox extends React.Component<Props, State> {
       {value: e.target.value},
       () => {
         if (this.timer) clearTimeout(this.timer);
-        if (this.state.value.length >= 2) {
+        if (this.state.value.length !== 1) {
           this.timer = setTimeout(() => this.getTags(), 200);
         }
       }
@@ -40,7 +40,7 @@ export class SearchBox extends React.Component<Props, State> {
   render() {
     return (
         <Col>
-          <Form.Control placeholder={this.props.placeholder_text}
+          <Form.Control placeholder={this.props.placeholderText}
            name="search_box"
            onChange={this.handleChange}
            value={this.state.value}
@@ -49,25 +49,3 @@ export class SearchBox extends React.Component<Props, State> {
     );
   }
 }
-
-// export const SearchBox = ({placeholder_text}: Props) =>{
-//   return (
-//       <Col>
-//         <Form.Control placeholder={placeholder_text}
-//          name="search_box"
-//         />
-//       </Col>
-//   );
-// }
-
-// export const SearchBox = ({placeholder_text}: Props) =>{
-//   return (
-//     <div className="searchbox">
-//         <input
-//           type="text"
-//           placeholder={placeholder_text}
-//           name="search_box"
-//         />
-//     </div>
-//   );
-// }

@@ -19,13 +19,12 @@ export const card = {
   website: 'http://www.example.com'
 }
 
-const stories_cb = storiesOf('Checkbox', module);
-stories_cb.addDecorator(withKnobs);
-
-stories_cb.add('basic', () => <Checkbox message={text('Label', 'Only places that are open now')}></Checkbox>);
+storiesOf('Checkbox', module)
+  .addDecorator(withKnobs)
+  .add('basic', () => <Checkbox message={text('Label', 'Only places that are open now')}/>);
 
 storiesOf('SearchBox', module)
-  .add('basic', () => <SearchBox placeholder_text={"Start typing..."}></SearchBox>);
+  .add('basic', () => <SearchBox placeholderText={"Start typing..."}/>);
 
 storiesOf('ACard', module)
-  .add('basic', () => <ACard card={card}></ACard>);
+  .add('basic', () => <ACard {...card}/>);
