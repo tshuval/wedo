@@ -2,6 +2,17 @@
 
 require 'rails_helper'
 
+RSpec.shared_examples 'invalid score' do |klass|
+  it 'returns status code 422' do
+    expect(response).to have_http_status(:unprocessable_entity)
+  end
+
+  it 'returns a validation failure message' do
+    expect(response.body)
+      .to match(/Validation failed: Score must be between 1-5/)
+  end
+end
+
 RSpec.describe 'Reviews API', type: :request do
   # initialize test data
   let(:place) { create(:place) }
@@ -72,40 +83,19 @@ RSpec.describe 'Reviews API', type: :request do
     context 'when the score is greater than 5' do
       before { post "/places/#{place_id}/reviews", params: { description: 'woohoo', username: 'someone', score: 6 } }
 
-      it 'returns status code 422' do
-        expect(response).to have_http_status(:unprocessable_entity)
-      end
-
-      it 'returns a validation failure message' do
-        expect(response.body)
-          .to match(/Validation failed: Score must be between 1-5/)
-      end
+      include_examples 'invalid score', Review
     end
 
     context 'when the score is less than 1' do
       before { post "/places/#{place_id}/reviews", params: { description: 'woohoo', username: 'someone', score: 0 } }
 
-      it 'returns status code 422' do
-        expect(response).to have_http_status(:unprocessable_entity)
-      end
-
-      it 'returns a validation failure message' do
-        expect(response.body)
-          .to match(/Validation failed: Score must be between 1-5/)
-      end
+      include_examples 'invalid score', Review
     end
 
     context 'when the score is empty' do
       before { post "/places/#{place_id}/reviews", params: { description: 'woohoo', username: 'someone' } }
 
-      it 'returns status code 422' do
-        expect(response).to have_http_status(:unprocessable_entity)
-      end
-
-      it 'returns a validation failure message' do
-        expect(response.body)
-          .to match(/Validation failed: Score must be between 1-5/)
-      end
+      include_examples 'invalid score', Review
     end
 
     context 'when the place does not exist' do
