@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.shared_examples 'invalid score' do |klass|
+RSpec.shared_examples 'invalid score' do
   it 'returns status code 422' do
     expect(response).to have_http_status(:unprocessable_entity)
   end
