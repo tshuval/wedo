@@ -21,10 +21,10 @@ export const card = {
 
 storiesOf('Checkbox', module)
   .addDecorator(withKnobs)
-  .add('basic', () => <Checkbox message={text('Label', 'Only places that are open now')}/>);
+  .add('open now', () => <Checkbox message={text('Label', 'Only places that are open now')}/>);
 
 storiesOf('SearchBox', module)
-  .add('basic', () => <SearchBox placeholderText={"Start typing..."}/>);
+  .add('autocomplete', () => <SearchBox placeholderText={"Start typing..."}/>);
 
 storiesOf('ACard', module)
-  .add('basic', () => <ACard {...card}/>);
+  .add('place card', () => <ACard {...card}/>);
