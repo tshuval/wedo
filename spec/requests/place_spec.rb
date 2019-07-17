@@ -25,35 +25,6 @@ RSpec.describe 'Places API', type: :request do
     end
   end
 
-  # # Test suite for GET /places?q=<place name>
-  # describe 'GET /places?q=<place name>' do
-
-  #   before { get "/places?q=#{place_name}" }
-
-  #   context 'when the record exists' do
-  #     it 'returns a list with the place' do
-  #       expect(json['places']).not_to be_empty
-  #       expect(json['places'][0]['name']).to eq(place_name)
-  #     end
-
-  #     it 'returns status code 200' do
-  #       expect(response).to have_http_status(:ok)
-  #     end
-  #   end
-
-  #   context 'when the record does not exist' do
-  #     let(:place_name) { 'not-here' }
-
-  #     it 'returns empty list' do
-  #       expect(json['places']).to be_empty
-  #     end
-
-  #     it 'returns status code 200' do
-  #       expect(response).to have_http_status(:ok)
-  #     end
-  #   end
-  # end
-
   # Test suite for GET /places/:id
   describe 'GET /places/:id' do
     before do
