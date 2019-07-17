@@ -13,7 +13,7 @@ type Props = {
 };
 
 export const ACard = ({id, title, description, address, score, website}: Props) => (
-  <Card data-id={id}>
+  <Card>
     <Card.Body>
       <Card.Title>{title} <Badge variant={score < 3 ? "danger" : "warning"}>{score}&#9733;</Badge></Card.Title>
       <Card.Subtitle className="mb-2 text-muted">{address}</Card.Subtitle>

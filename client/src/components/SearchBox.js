@@ -3,24 +3,22 @@ import React from 'react';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 
-type Props = {
+type Props = {|
   placeholderText: string
-};
+|};
 
-type State = {
+type State = {|
   value: string
-};
+|};
 
 export class SearchBox extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {value: ''};
-    this.handleChange = this.handleChange.bind(this);
   }
   timer: TimeoutID;
 
-  /*:: handleChange: () => void */
-  handleChange(e: SyntheticInputEvent<*>) {
+  handleChange = (e: SyntheticInputEvent<*>) => {
     this.setState(
       {value: e.target.value},
       () => {
