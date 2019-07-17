@@ -3,14 +3,14 @@ import React from 'react';
 import Card from 'react-bootstrap/Card';
 import Badge from 'react-bootstrap/Badge';
 
-type Props = {
+type Props = {|
   id: string,
   title: string,
   description: string,
   address: string,
   score: number,
   website: string
-};
+|};
 
 export const ACard = ({id, title, description, address, score, website}: Props) => (
   <Card>
