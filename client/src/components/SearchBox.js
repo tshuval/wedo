@@ -2,6 +2,9 @@
 import React from 'react';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
+import { BackendClient } from '../requests';
+
+let conn = new BackendClient();
 
 type Props = {|
   placeholderText: string
@@ -32,7 +35,7 @@ export class SearchBox extends React.Component<Props, State> {
 
   getTags() {
     // TODO: Parent should call GET /places...
-    console.log('GET /places?q=' + this.state.value);
+    conn.getPlaces(this.state.value);
   }
 
   render() {
