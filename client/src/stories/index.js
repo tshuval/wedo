@@ -1,19 +1,34 @@
+// @flow
 import React from 'react';
 
 import { storiesOf } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
-import { linkTo } from '@storybook/addon-links';
+import { withKnobs, text } from '@storybook/addon-knobs';
 
-import { Button, Welcome } from '@storybook/react/demo';
+import { Checkbox } from '../components/Checkbox'
+import { ACard } from '../components/Card'
+import { SearchBox } from '../components/SearchBox'
+import Button from 'react-bootstrap/Button';
 
-storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')} />);
+import 'bootstrap/dist/css/bootstrap.css';
+
+export const card = {
+  id: 'AAAA-BBBB',
+  title: 'Beer Garden',
+  description: 'Drink beer in the garden',
+  address: '1 Herzl st.',
+  score: 4,
+  website: 'http://www.example.com'
+}
+
+storiesOf('Checkbox', module)
+  .addDecorator(withKnobs)
+  .add('open now', () => <Checkbox message={text('Label', 'Only places that are open now')}/>);
+
+storiesOf('SearchBox', module)
+  .add('autocomplete', () => <SearchBox placeholderText={"Start typing..."}/>);
+
+storiesOf('ACard', module)
+  .add('place card', () => <ACard {...card}/>);
 
 storiesOf('Button', module)
-  .add('with text', () => <Button onClick={action('clicked')}>Hello Button</Button>)
-  .add('with some emoji', () => (
-    <Button onClick={action('clicked')}>
-      <span role="img" aria-label="so cool">
-        😀 😎 👍 💯
-      </span>
-    </Button>
-  ));
+  .add('create place', () => <Button variant="outline-primary">Create Place...</Button>);
