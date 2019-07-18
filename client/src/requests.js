@@ -13,7 +13,7 @@ export class BackendClient {
   getTags = async (q: string) => {
     try {
       const response = await axios.get('/tags?q=' + q);
-      console.log(response);
+      return response['data']['tags'];
     } catch(error) {
       console.error(error);
     }
@@ -31,7 +31,7 @@ export class BackendClient {
 
     try {
       const response = await axios.get('/places', {params: params});
-      console.log(response);
+      return response['data']['places'];
     } catch(error) {
         console.error(error);
     }
@@ -41,7 +41,7 @@ export class BackendClient {
   getReviews = async (placeId: string) => {
     try {
       const response = await axios.get('/places/' + placeId + '/reviews');
-      console.log(response);
+      return response['data'];
     } catch(error) {
       console.error(error);
     }
@@ -51,7 +51,7 @@ export class BackendClient {
   getPlace = async (placeId: string) => {
     try {
       const response = await axios.get('/places/' + placeId);
-      console.log(response);
+      return response['data'];
     } catch(error) {
       console.error(error);
     }
@@ -61,7 +61,7 @@ export class BackendClient {
   createPlace = async (placeParams: PlaceProps) => {
     try {
       const response = await axios.post('/places/', placeParams);
-      console.log(response);
+      return response['data'];
     } catch(error) {
       console.error(error);
     }
@@ -71,7 +71,7 @@ export class BackendClient {
   updatePlace = async (placeId: string, placeParams: PlaceProps) => {
     try {
       const response = await axios.put('/places/' + placeId, placeParams);
-      console.log(response);
+      return response['data'];
     } catch(error) {
       console.error(error);
     }
@@ -81,7 +81,7 @@ export class BackendClient {
   createReview = async (placeId: string, reviewParams: ReviewProps) => {
     try {
       const response = await axios.post('/places/' + placeId + '/reviews', reviewParams);
-      console.log(response);
+      return response['data'];
     } catch(error) {
         console.error(error);
     }
