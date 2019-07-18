@@ -21,6 +21,8 @@
 #
 
 class Place < ApplicationRecord
+  validates :name, :address, presence: true
+
   has_and_belongs_to_many :tags
   has_many :reviews
 

@@ -14,6 +14,7 @@
 #
 
 class Review < ApplicationRecord
+  validates :username, presence: true
   validates :score, numericality: { only_integer: true, greater_than: 0, less_than: 6, message: 'must be between 1-5' }
 
   belongs_to :place
