@@ -1,8 +1,8 @@
 // @flow
+import axios from 'axios';
 import type { PlaceProps, ReviewProps } from './types';
 
-const axios = require('axios');
-axios.defaults.baseURL = 'http://localhost:3000';
+axios.defaults.baseURL = process.env.REACT_APP_SERVER;
 
 // We are sending the client's timezone offset to the server to calculate
 // the user's time
@@ -13,7 +13,7 @@ export class BackendClient {
   getTags = async (q: string) => {
     try {
       const response = await axios.get('/tags?q=' + q);
-      return response['data']['tags'];
+      return response.data.tags;
     } catch(error) {
       console.error(error);
     }
@@ -26,12 +26,12 @@ export class BackendClient {
       open_now?: string,
       tz_offset: number
     } = {tz_offset: tzOffset};
-    if (q) params['q'] = q;
-    if (openNow) params['open_now'] = ''
+    if (q) params.q = q;
+    if (openNow) params.open_now = ''
 
     try {
       const response = await axios.get('/places', {params: params});
-      return response['data']['places'];
+      return response.data.places;
     } catch(error) {
         console.error(error);
     }
@@ -41,7 +41,7 @@ export class BackendClient {
   getReviews = async (placeId: string) => {
     try {
       const response = await axios.get('/places/' + placeId + '/reviews');
-      return response['data'];
+      return response.data;
     } catch(error) {
       console.error(error);
     }
@@ -51,7 +51,7 @@ export class BackendClient {
   getPlace = async (placeId: string) => {
     try {
       const response = await axios.get('/places/' + placeId);
-      return response['data'];
+      return response.data;
     } catch(error) {
       console.error(error);
     }
@@ -61,7 +61,7 @@ export class BackendClient {
   createPlace = async (placeParams: PlaceProps) => {
     try {
       const response = await axios.post('/places/', placeParams);
-      return response['data'];
+      return response.data;
     } catch(error) {
       console.error(error);
     }
@@ -71,7 +71,7 @@ export class BackendClient {
   updatePlace = async (placeId: string, placeParams: PlaceProps) => {
     try {
       const response = await axios.put('/places/' + placeId, placeParams);
-      return response['data'];
+      return response.data;
     } catch(error) {
       console.error(error);
     }
@@ -81,7 +81,7 @@ export class BackendClient {
   createReview = async (placeId: string, reviewParams: ReviewProps) => {
     try {
       const response = await axios.post('/places/' + placeId + '/reviews', reviewParams);
-      return response['data'];
+      return response.data;
     } catch(error) {
         console.error(error);
     }
