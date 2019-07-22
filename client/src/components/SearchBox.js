@@ -41,14 +41,20 @@ export class SearchBox extends React.Component<Props, State> {
   }
 
   render() {
+    const shouldDisplayDropdown = true;
+    const { tags } = this.state;
+
     return (
-        <Col>
-          <Form.Control placeholder={this.props.placeholderText}
-           name="search_box"
-           onChange={this.handleChange}
-           value={this.state.value}
-          />
-        </Col>
+      <Col>
+        <Form.Control placeholder={this.props.placeholderText}
+         name="search_box"
+         onChange={this.handleChange}
+         value={this.state.value}
+        />
+        {shouldDisplayDropdown && <div>
+          {tags.map(({ name }) => <div>{name}</div>)}
+        </div>}
+      </Col>
     );
   }
 }
