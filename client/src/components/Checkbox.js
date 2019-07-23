@@ -7,7 +7,7 @@ type Props = {|
   message: string
 |};
 
-export const Checkbox = ({message}: Props) => (
+export const Checkbox = ({ message }: Props) => (
   <Col>
     <Form.Check type="checkbox"
       defaultChecked={false}

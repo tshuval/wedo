@@ -14,7 +14,7 @@ export class BackendClient {
     try {
       const response = await axios.get('/tags?q=' + q);
       return response.data.tags;
-    } catch(error) {
+    } catch (error) {
       console.error(error);
     }
   }
@@ -25,15 +25,19 @@ export class BackendClient {
       q?: string,
       open_now?: string,
       tz_offset: number
-    } = {tz_offset: tzOffset};
-    if (q) params.q = q;
-    if (openNow) params.open_now = ''
+    } = { tz_offset: tzOffset };
+    if (q) {
+      params.q = q;
+    }
+    if (openNow) {
+      params.open_now = '';
+    }
 
     try {
-      const response = await axios.get('/places', {params: params});
+      const response = await axios.get('/places', { params: params });
       return response.data.places;
-    } catch(error) {
-        console.error(error);
+    } catch (error) {
+      console.error(error);
     }
   }
 
@@ -42,7 +46,7 @@ export class BackendClient {
     try {
       const response = await axios.get('/places/' + placeId + '/reviews');
       return response.data;
-    } catch(error) {
+    } catch (error) {
       console.error(error);
     }
   }
@@ -52,7 +56,7 @@ export class BackendClient {
     try {
       const response = await axios.get('/places/' + placeId);
       return response.data;
-    } catch(error) {
+    } catch (error) {
       console.error(error);
     }
   }
@@ -62,7 +66,7 @@ export class BackendClient {
     try {
       const response = await axios.post('/places/', placeParams);
       return response.data;
-    } catch(error) {
+    } catch (error) {
       console.error(error);
     }
   }
@@ -72,7 +76,7 @@ export class BackendClient {
     try {
       const response = await axios.put('/places/' + placeId, placeParams);
       return response.data;
-    } catch(error) {
+    } catch (error) {
       console.error(error);
     }
   }
@@ -82,8 +86,8 @@ export class BackendClient {
     try {
       const response = await axios.post('/places/' + placeId + '/reviews', reviewParams);
       return response.data;
-    } catch(error) {
-        console.error(error);
+    } catch (error) {
+      console.error(error);
     }
   }
 }
