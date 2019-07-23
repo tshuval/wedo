@@ -21,8 +21,8 @@ export const card = {
   description: 'Drink beer in the garden',
   address: '1 Herzl st.',
   score: 4,
-  website: 'http://www.example.com'
-}
+  website: 'http://www.example.com',
+};
 
 export const review = {
   username: 'Bob',
@@ -35,7 +35,7 @@ storiesOf('Checkbox', module)
   .add('open now', () => <Checkbox message={text('Label', 'Only places that are open now')}/>);
 
 storiesOf('SearchBox', module)
-  .add('autocomplete', () => <SearchBox placeholderText={"Start typing..."}/>);
+  .add('autocomplete', () => <SearchBox placeholderText={'Start typing...'}/>);
 
 storiesOf('ACard', module)
   .add('place card', () => <ACard {...card}/>);
