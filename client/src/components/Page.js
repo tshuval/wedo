@@ -1,5 +1,5 @@
 // @flow
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
 // bootstrap objects
 import Col from 'react-bootstrap/Col';
@@ -10,13 +10,13 @@ import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
 
 // components
-import {SearchCombo} from './SearchCombo';
-import {Checkbox} from './Checkbox';
-import {CardList} from './CardList';
-import {PlaceFormModal} from './Place';
+import { SearchCombo } from './SearchCombo';
+import { Checkbox } from './Checkbox';
+import { CardList } from './CardList';
+import { PlaceFormModal } from './Place';
 import Map from './Map';
 
-import './Page.css'
+import './Page.css';
 
 type Props = {'google': any};
 
@@ -26,8 +26,8 @@ const card = {
   description: 'Drink beer in the garden',
   address: '1 Herzl st.',
   score: 4,
-  website: 'http://www.example.com'
-}
+  website: 'http://www.example.com',
+};
 
 const Page = (props: Props) => {
   const [showCreatePlace, setShowCreatePlace] = useState(false);
@@ -50,12 +50,12 @@ const Page = (props: Props) => {
             <Col>
               <Form>
                 <Form.Row>
-                    <Col>
-                      <SearchCombo />
-                    </Col>
-                    <Col>
-                      <Checkbox message="Open now"/>
-                    </Col>
+                  <Col>
+                    <SearchCombo />
+                  </Col>
+                  <Col>
+                    <Checkbox message="Open now"/>
+                  </Col>
                 </Form.Row>
               </Form>
             </Col>
@@ -78,8 +78,8 @@ const Page = (props: Props) => {
 
       <PlaceFormModal showCreatePlace={showCreatePlace} handleClose={handleClose} />
     </Container>
-  )
-}
+  );
+};
 
 
 export default Page;

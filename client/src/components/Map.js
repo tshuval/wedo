@@ -8,5 +8,5 @@ const Map = (props) => (
 );
 
 export default GoogleApiWrapper({
-  apiKey: 'AIzaSyAbWsYd03RL-T_1VZW5wU7Zod2u9H3QIXM'
+  apiKey: 'AIzaSyAbWsYd03RL-T_1VZW5wU7Zod2u9H3QIXM',
 })(Map);

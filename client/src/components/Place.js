@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import InputGroup from 'react-bootstrap/InputGroup';
 
-import type { PlaceProps } from '../types'
+import type { PlaceProps } from '../types';
 
 type Props = {|
   place?: PlaceProps,
@@ -14,9 +14,11 @@ type Props = {|
   handleClose?: Function
 |};
 
-export const PlaceForm = ({place}: Props) => {
+export const PlaceForm = ({ place }: Props) => {
   let p = place || {};
-  if (!p.opening_hours) p.opening_hours = {};
+  if (!p.opening_hours) {
+    p.opening_hours = {};
+  }
 
   return (
     <Form>
@@ -76,12 +78,12 @@ export const PlaceForm = ({place}: Props) => {
 
       <Form.Row>
         <Form.Group as={Col} controlId="formHorizontalLatitude">
-        <InputGroup>
-          <InputGroup.Prepend>
-            <InputGroup.Text title="Latitue">lat</InputGroup.Text>
-          </InputGroup.Prepend>
-          <Form.Control type="text" placeholder="Latitude" defaultValue={p.lat} />
-        </InputGroup>
+          <InputGroup>
+            <InputGroup.Prepend>
+              <InputGroup.Text title="Latitue">lat</InputGroup.Text>
+            </InputGroup.Prepend>
+            <Form.Control type="text" placeholder="Latitude" defaultValue={p.lat} />
+          </InputGroup>
         </Form.Group>
 
         <Form.Group as={Col} controlId="formHorizontalLongitude">
@@ -145,10 +147,10 @@ export const PlaceForm = ({place}: Props) => {
         <Col sm={2}><Form.Control type="text" placeholder="To" defaultValue={p.opening_hours.sat_close} /></Col>
       </Form.Group>
     </Form>
-  )
-}
+  );
+};
 
-export const PlaceFormModal = ({place, showCreatePlace, handleClose}: Props) => {
+export const PlaceFormModal = ({ place, showCreatePlace, handleClose }: Props) => {
   return (
     <Modal show={showCreatePlace} onHide={handleClose} size="lg">
       <Modal.Header closeButton>
@@ -168,5 +170,5 @@ export const PlaceFormModal = ({place, showCreatePlace, handleClose}: Props) => 
         </Button>
       </Modal.Footer>
     </Modal>
-  )
-}
+  );
+};

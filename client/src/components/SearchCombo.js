@@ -20,16 +20,18 @@ type State = {|
 export class SearchCombo extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = {value: '', tags: null};
+    this.state = { value: '', tags: null };
     this.getPlaces();
   }
   timer: TimeoutID;
 
   handleChange = (e: SyntheticInputEvent<*>) => {
     this.setState(
-      {value: e.target.value},
+      { value: e.target.value },
       () => {
-        if (this.timer) clearTimeout(this.timer);
+        if (this.timer) {
+          clearTimeout(this.timer);
+        }
         if (this.state.value.length !== 1) {
           this.timer = setTimeout(() => this.getTags(), 200);
         }
@@ -39,13 +41,13 @@ export class SearchCombo extends React.Component<Props, State> {
 
   handleSelection = (e: SyntheticEvent<*>) => {
     this.setState(
-      {value: e.toString(), tags: null},
+      { value: e.toString(), tags: null },
       () => {
         this.getPlaces();
       });
   }
 
-  getTags = async() => {
+  getTags = async () => {
     let tags = [];
     if (this.state.value === '') {
       tags = null;
@@ -55,7 +57,7 @@ export class SearchCombo extends React.Component<Props, State> {
     this.setState({ tags });
   }
 
-  getPlaces = async() => {
+  getPlaces = async () => {
     let places = [];
     places = await connection.getPlaces(this.state.value);
     // TODO: something with the list of places
@@ -63,7 +65,7 @@ export class SearchCombo extends React.Component<Props, State> {
 
   render() {
     const {
-      style, className
+      style, className,
     } = this.props;
     const { value } = this.state;
     const { tags } = this.state;
@@ -79,7 +81,7 @@ export class SearchCombo extends React.Component<Props, State> {
         />
         <ul className="list-unstyled">
           {tags && tags.length > 0 && tags.map(tag => (
-                <Dropdown.Item key={tag.name} eventKey={tag.name} onSelect={this.handleSelection}>{tag.name}</Dropdown.Item>))}
+            <Dropdown.Item key={tag.name} eventKey={tag.name} onSelect={this.handleSelection}>{tag.name}</Dropdown.Item>))}
           {tags && tags.length === 0 && <Dropdown.Header>No results</Dropdown.Header>}
         </ul>
       </div>

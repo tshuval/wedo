@@ -9,6 +9,6 @@ type Props = {|
   score: number
 |};
 
-export const Review = ({username, description, score}: Props) => (
-  <ListGroup.Item>{description} <cite className="text-muted">({username})</cite> <Badge variant={score < 3 ? "danger" : "warning"}>{score}&#9733;</Badge></ListGroup.Item>
+export const Review = ({ username, description, score }: Props) => (
+  <ListGroup.Item>{description} <cite className="text-muted">({username})</cite> <Badge variant={score < 3 ? 'danger' : 'warning'}>{score}&#9733;</Badge></ListGroup.Item>
 );
