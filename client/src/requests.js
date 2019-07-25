@@ -1,6 +1,8 @@
 // @flow
 import axios from 'axios';
 import type { PlaceProps, ReviewProps } from './types';
+import { setError } from './actions';
+import store from './store';
 
 axios.defaults.baseURL = process.env.REACT_APP_SERVER;
 
@@ -15,7 +17,7 @@ export class BackendClient {
       const response = await axios.get('/tags?q=' + q);
       return response.data.tags;
     } catch (error) {
-      console.error(error);
+      store.dispatch(setError(error.response.data.message));
     }
   }
 
@@ -37,7 +39,7 @@ export class BackendClient {
       const response = await axios.get('/places', { params: params });
       return response.data.places;
     } catch (error) {
-      console.error(error);
+      store.dispatch(setError(error.response.data.message));
     }
   }
 
@@ -47,7 +49,7 @@ export class BackendClient {
       const response = await axios.get('/places/' + placeId + '/reviews');
       return response.data;
     } catch (error) {
-      console.error(error);
+      store.dispatch(setError(error.response.data.message));
     }
   }
 
@@ -57,7 +59,7 @@ export class BackendClient {
       const response = await axios.get('/places/' + placeId);
       return response.data;
     } catch (error) {
-      console.error(error);
+      store.dispatch(setError(error.response.data.message));
     }
   }
 
@@ -67,7 +69,7 @@ export class BackendClient {
       const response = await axios.post('/places/', placeParams);
       return response.data;
     } catch (error) {
-      console.error(error);
+      store.dispatch(setError(error.response.data.message));
     }
   }
 
@@ -77,7 +79,7 @@ export class BackendClient {
       const response = await axios.put('/places/' + placeId, placeParams);
       return response.data;
     } catch (error) {
-      console.error(error);
+      store.dispatch(setError(error.response.data.message));
     }
   }
 
@@ -87,7 +89,7 @@ export class BackendClient {
       const response = await axios.post('/places/' + placeId + '/reviews', reviewParams);
       return response.data;
     } catch (error) {
-      console.error(error);
+      store.dispatch(setError(error.response.data.message));
     }
   }
 }

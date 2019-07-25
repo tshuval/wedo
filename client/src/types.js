@@ -1,5 +1,6 @@
 // @flow
 export type PlaceProps = {|
+  id: string,
   name: string,
   description: string,
   address: string,
