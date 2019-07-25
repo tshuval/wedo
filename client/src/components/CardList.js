@@ -4,7 +4,7 @@ import React from 'react';
 import ACard from './Card';
 
 type Props = {|
-  places?: Array<any>
+  places: Array<any>
 |};
 
 export const CardList = ({ places }: Props) => (

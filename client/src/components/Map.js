@@ -74,5 +74,5 @@ class Map extends React.Component<Props, State> {
 };
 
 export default GoogleApiWrapper({
-  apiKey: 'AIzaSyAbWsYd03RL-T_1VZW5wU7Zod2u9H3QIXM',
+  apiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
 })(Map);
