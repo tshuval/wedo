@@ -8,8 +8,8 @@ import { toggleOpenNow, doFetchPlaces } from '../actions';
 
 type Props = {|
   message: string,
-  toggleOpenNow: Function,
-  doFetchPlaces: Function,
+  toggleOpenNow: () => void,
+  doFetchPlaces: () => void,
 |};
 
 class Checkbox extends React.Component<Props> {

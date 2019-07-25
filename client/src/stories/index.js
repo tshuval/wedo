@@ -5,10 +5,10 @@ import { storiesOf } from '@storybook/react';
 import { withKnobs, text } from '@storybook/addon-knobs';
 
 import Checkbox from '../components/Checkbox';
-import { ACard } from '../components/Card';
+import ACard from '../components/Card';
 import { CardList } from '../components/CardList';
 import { Review } from '../components/Review';
-import { PlaceForm } from '../components/Place';
+import { CreatePlaceFormModal } from '../components/Place';
 import { SearchBox } from '../components/SearchBox';
 import SearchCombo from '../components/SearchCombo';
 import Button from 'react-bootstrap/Button';
@@ -29,6 +29,8 @@ export const review = {
   score: 4,
 };
 
+const dummyFunction = () => void
+
 storiesOf('Checkbox', module)
   .addDecorator(withKnobs)
   .add('open now', () => <Checkbox message={text('Label', 'Only places that are open now')}/>);
@@ -47,7 +49,7 @@ storiesOf('Review', module)
   .add('review', () => <Review {...review} />);
 
 storiesOf('Place', module)
-  .add('form', () => <PlaceForm />);
+  .add('form', () => <CreatePlaceFormModal show={true} handleClose={dummyFunction} />);
 
 storiesOf('CardList', module)
   .add('card list', () => <CardList places={[card, card, card]} />);

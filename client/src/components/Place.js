@@ -18,8 +18,17 @@ type Props = {|
   place?: PlaceProps,
   reviews?: [],
   tags?: [],
-  show?: boolean,
-  handleClose?: Function
+|};
+
+type CreateModalProps = {|
+  show: boolean,
+  handleClose: () => void
+|};
+
+type EditModalProps = {|
+  place: {place: PlaceProps, tags: [], latest_reviews: []},
+  show: boolean,
+  handleClose: () => void
 |};
 
 type State = {|
@@ -47,12 +56,11 @@ class PlaceForm extends React.Component<Props, State> {
   }
 
   render() {
-    const place = this.props.place;
+    const {place, reviews, tags} = this.props;
     let p = place || {};
     if (!p.opening_hours) {
       p.opening_hours = {};
     }
-    const {reviews, tags} = this.props;
 
     return (
       <Container>
@@ -216,7 +224,7 @@ class PlaceForm extends React.Component<Props, State> {
   }
 };
 
-export const CreatePlaceFormModal = ({ place, show, handleClose }: Props) => {
+export const CreatePlaceFormModal = ({ show, handleClose }: CreateModalProps) => {
   return (
     <Modal show={show} onHide={handleClose} size="lg">
       <Modal.Header closeButton>
@@ -239,7 +247,7 @@ export const CreatePlaceFormModal = ({ place, show, handleClose }: Props) => {
   );
 };
 
-export const PlaceDetailsModal = ({ place, show, handleClose }: Props) => {
+export const PlaceDetailsModal = ({ place, show, handleClose }: EditModalProps) => {
   return (
     <Modal show={show} onHide={handleClose} size="lg">
       <Modal.Header closeButton>

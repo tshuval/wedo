@@ -1,11 +1,11 @@
-import {UPDATE_SEARCH_VALUE, UPDATE_PLACES, TOGGLE_OPEN_NOW, UPDATE_CURRENT_PLACE, RESET_CURRENT_PLACE, SET_ERROR, CLEAR_ERROR} from './actions';
+import {UPDATE_SEARCH_VALUE, UPDATE_PLACES, TOGGLE_OPEN_NOW, UPDATE_CURRENT_PLACE, RESET_CURRENT_PLACE, SET_NOTIFICATION, CLEAR_NOTIFICATION} from './actions';
 
 const initialState = {
   searchString: '',
   places: [],
   openNow: false,
   currentPlace: null,
-  lastError: null
+  notification: null
 };
 
 const reducer = (state=initialState, action) => {
@@ -35,15 +35,15 @@ const reducer = (state=initialState, action) => {
       ...state,
       currentPlace: null
     };
-  case SET_ERROR:
+  case SET_NOTIFICATION:
     return {
       ...state,
-      lastError: action.payload
+      notification: action.payload
     };
-  case CLEAR_ERROR:
+  case CLEAR_NOTIFICATION:
     return {
       ...state,
-      lastError: null
+      notification: null
     };
   default:
     return state;

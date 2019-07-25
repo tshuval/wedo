@@ -25,7 +25,7 @@ export type PlaceProps = {|
     sat_open?: string,
     sat_close?: string
   },
-  tags: Array<string>
+  tags: Array<string>,
 |};
 
 export type ReviewProps = {|

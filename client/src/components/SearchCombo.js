@@ -12,8 +12,8 @@ let connection = new BackendClient();
 type Props = {|
   style?: string,
   className?: string,
-  updateSearchValue: Function,
-  doFetchPlaces: Function
+  updateSearchValue: (string) => void,
+  doFetchPlaces: () => void
 |};
 
 type State = {|

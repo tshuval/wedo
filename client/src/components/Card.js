@@ -12,7 +12,8 @@ type Props = {|
   name: string,
   description: string,
   address: string,
-  score: number
+  score: number,
+  doGetPlace: (string) => void,
 |};
 
 class ACard extends React.Component<Props> {

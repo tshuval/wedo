@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 
+import Badge from 'react-bootstrap/Badge';
 import { Map as GoogleMap, Marker, InfoWindow, GoogleApiWrapper } from 'google-maps-react';
 
 type Props = {|
@@ -11,7 +12,7 @@ type Props = {|
 type State = {|
   showingInfoWindow: boolean,
   activeMarker: any,
-  selectedPlace: {name: string},
+  selectedPlace: {name: string, average_score: number},
 |}
 
 class Map extends React.Component<Props, State> {
@@ -63,7 +64,8 @@ class Map extends React.Component<Props, State> {
           visible={this.state.showingInfoWindow}
           >
           <div>
-            <strong>{this.state.selectedPlace.name}</strong>
+            <strong>{this.state.selectedPlace.name} </strong>
+            {this.state.selectedPlace.average_score > 0 && <Badge variant={this.state.selectedPlace.average_score < 3 ? 'danger' : 'warning'}>{this.state.selectedPlace.average_score}&#9733;</Badge>}
           </div>
         </InfoWindow>
       </GoogleMap>

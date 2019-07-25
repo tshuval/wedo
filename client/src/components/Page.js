@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import { connect } from 'react-redux';
+import {NotificationContainer, NotificationManager} from 'react-notifications';
 
 // bootstrap objects
 import Col from 'react-bootstrap/Col';
@@ -15,18 +16,23 @@ import SearchCombo from './SearchCombo';
 import Checkbox from './Checkbox';
 import { CardList } from './CardList';
 import { CreatePlaceFormModal, PlaceDetailsModal } from './Place';
-import Notification from './Notification';
 import Map from './Map';
 
-import './Page.css';
+import type { PlaceProps } from '../types';
 
-import { doFetchPlaces, resetCurrentPlace, clearError } from '../actions';
+import './Page.css';
+import 'react-notifications/lib/notifications.css';
+
+import { doFetchPlaces, resetCurrentPlace, clearNotification } from '../actions';
 
 type Props = {
   'google': any,
   places: Array<any>,
-  doFetchPlaces: Function,
-  lastError: string
+  doFetchPlaces: () => void,
+  currentPlace: {place: PlaceProps, tags: [], latest_reviews: []},
+  resetCurrentPlace: () => void,
+  clearNotification: () => void,
+  notification: {type: string, message: string}
 };
 
 type State = {|
@@ -60,6 +66,16 @@ class Page extends React.Component<Props, State> {
   handleCloseDetails = () => (
     this.setState({showPlaceDetails: false})
   )
+
+  showNotification = (notification: {type: string, message: string}) => {
+    if (notification.type === 'error') {
+      NotificationManager.error(notification.message, 'Error');
+    }
+    if (notification.type === 'success') {
+      NotificationManager.success(notification.message, 'Success');
+    }
+    this.props.clearNotification();
+  }
 
   render() {
     return (
@@ -103,8 +119,11 @@ class Page extends React.Component<Props, State> {
         </Row>
 
         <CreatePlaceFormModal show={this.state.showCreatePlace} handleClose={this.handleClose} />
-        {this.props.currentPlace && <PlaceDetailsModal show={true} handleClose={this.props.resetCurrentPlace} place={this.props.currentPlace} />}
-        {this.props.lastError && <Notification message={this.props.lastError}/>}
+        {this.props.currentPlace &&
+          <PlaceDetailsModal show={true} handleClose={this.props.resetCurrentPlace} place={this.props.currentPlace} />}
+
+        <NotificationContainer/>
+        {this.props.notification && this.showNotification(this.props.notification)}
       </Container>
     );
   };
@@ -114,14 +133,14 @@ const mapStateToProps = (state) => {
   return {
     places: state.places,
     currentPlace: state.currentPlace,
-    lastError: state.lastError
+    notification: state.notification
   };
 }
 
 const mapDispatchToProps = {
   doFetchPlaces,
   resetCurrentPlace,
-  clearError
+  clearNotification,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Page);

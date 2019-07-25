@@ -66,12 +66,13 @@ export class CreateReviewForm extends React.Component<Props, State> {
           </Col>
           <Col sm={2}><Form.Control type="text" placeholder="Username" onChange={this.updateUsername}/></Col>
           <Col sm={1}>
-            <Form.Control as="select" defaultValue="5" onChange={this.updateScore}>
-              <option value="1">1</option>
-              <option value="2">2</option>
+            <Form.Control as="select" defaultValue="x" onChange={this.updateScore}>
+              <option value="x" disabled hidden>&#9733;</option>
+              <option value="1">5</option>
+              <option value="2">4</option>
               <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
+              <option value="4">2</option>
+              <option value="5">1</option>
             </Form.Control>
           </Col>
           <Col>

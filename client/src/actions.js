@@ -8,8 +8,8 @@ export const UPDATE_CURRENT_PLACE = 'UPDATE_CURRENT_PLACE';
 export const TOGGLE_OPEN_NOW = 'TOGGLE_OPEN_NOW';
 export const RESET_CURRENT_PLACE = 'RESET_CURRENT_PLACE';
 
-export const SET_ERROR = 'SET_ERROR';
-export const CLEAR_ERROR = 'CLEAR_ERROR';
+export const SET_NOTIFICATION = 'SET_NOTIFICATION';
+export const CLEAR_NOTIFICATION = 'CLEAR_NOTIFICATION';
 
 export const updateSearchValue = (value) => (
   {type: UPDATE_SEARCH_VALUE, payload: value}
@@ -31,12 +31,12 @@ export const resetCurrentPlace = () => (
   {type: RESET_CURRENT_PLACE}
 );
 
-export const setError = (error) => (
-  {type: SET_ERROR, payload: error}
+export const setNotification = (type, message) => (
+  {type: SET_NOTIFICATION, payload: {type: type, message: message}}
 );
 
-export const clearError = () => (
-  {type: CLEAR_ERROR}
+export const clearNotification = () => (
+  {type: CLEAR_NOTIFICATION}
 );
 
 export const doFetchPlaces = () => {
