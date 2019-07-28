@@ -18,41 +18,88 @@ type Props = {|
   place?: PlaceProps,
   reviews?: [],
   tags?: [],
+  handleSave: () => PlaceProps
 |};
 
 type CreateModalProps = {|
   show: boolean,
-  handleClose: () => void
+  handleClose: () => void,
 |};
 
 type EditModalProps = {|
   place: {place: PlaceProps, tags: [], latest_reviews: []},
   show: boolean,
-  handleClose: () => void
+  handleClose: () => void,
 |};
 
-type State = {|
-  toggleHours: boolean,
-  toggleReviews: boolean
-|};
+type State = {|...PlaceProps|};
 
 class PlaceForm extends React.Component<Props, State> {
   constructor(props) {
     super(props);
-    this.state = {
-      toggleHours: false,
-      toggleReviews: false
+    this.state = this.props.place || this.defaultState;
+  }
+
+  defaultState = {
+    id: '',
+    name: '',
+    description: '',
+    address: '',
+    website: '',
+    phone: '',
+    email: '',
+    lat: 0,
+    lon: 0,
+    opening_hours: {
+      sun_open: '',
+      sun_close: '',
+      mon_open: '',
+      mon_close: '',
+      tue_open: '',
+      tue_close: '',
+      wed_open: '',
+      wed_close: '',
+      thu_open: '',
+      thu_close: '',
+      fri_open: '',
+      fri_close: '',
+      sat_open: '',
+      sat_close: ''
+    },
+    tags: [],
+  };
+
+  updateState = (e: SyntheticInputEvent<*>) => {
+    this.setState({[e.target.id]: e.target.value});
+  }
+
+  updateTime = (e: SyntheticInputEvent<*>) => {
+    let v = e.target.value;
+    if (isNaN(Number(v))) {return;}
+    switch (v.length) {
+    case 1:
+      v = '0' + v + ':00';
+      break;
+    case 2:
+      v = v + ':00';
+      break;
+    case 3:
+      v = v.charAt(0) + ':' + v.slice(1);
+      break;
+    case 4:
+      v = v.slice(0, 2) + ':' + v.slice(2);
+      break;
+    default:
+      v = '';
     }
-  }
-
-  handleToggleHours = (e: SyntheticEvent<*>) => {
-    e.preventDefault();
-    this.setState({toggleHours: !this.state.toggleHours});
-  }
-
-  handleToggleReviews = (e: SyntheticEvent<*>) => {
-    e.preventDefault();
-    this.setState({toggleReviews: !this.state.toggleReviews});
+    e.target.value = v;
+    let parts = e.target.id.split('.');
+    this.setState(prevState => ({
+      opening_hours: {
+        ...prevState.opening_hours,
+        [parts[1]]: v
+      }
+    }));
   }
 
   render() {
@@ -65,82 +112,82 @@ class PlaceForm extends React.Component<Props, State> {
     return (
       <Container>
         <Form>
-          <Form.Group as={Form.Row} controlId="formHorizontalName">
+          <Form.Group as={Form.Row} controlId="name">
             <Col>
-              <Form.Control type="text" placeholder="Name" defaultValue={p.name} />
+              <Form.Control type="text" placeholder="Name" defaultValue={p.name} onChange={this.updateState}/>
             </Col>
           </Form.Group>
 
-          <Form.Group as={Form.Row} controlId="formHorizontalDescription">
+          <Form.Group as={Form.Row} controlId="description">
             <Col>
-              <Form.Control type="text" placeholder="Description" defaultValue={p.description} />
+              <Form.Control type="text" placeholder="Description" defaultValue={p.description} onChange={this.updateState}/>
             </Col>
           </Form.Group>
 
           <Form.Row>
-            <Form.Group as={Col} controlId="formHorizontalAddress">
-                <InputGroup>
-                  <InputGroup.Prepend>
-                    <InputGroup.Text title="Address">&#9737;</InputGroup.Text>
-                  </InputGroup.Prepend>
-                  <Form.Control type="text" placeholder="Address" defaultValue={p.address} />
-                </InputGroup>
+            <Form.Group as={Col} controlId="address">
+              <InputGroup>
+                <InputGroup.Prepend>
+                  <InputGroup.Text title="Address">&#9737;</InputGroup.Text>
+                </InputGroup.Prepend>
+                <Form.Control type="text" placeholder="Address" defaultValue={p.address} onChange={this.updateState}/>
+              </InputGroup>
             </Form.Group>
 
-            <Form.Group as={Col} controlId="formHorizontalWebsite">
-                <InputGroup>
-                  <InputGroup.Prepend>
-                    <InputGroup.Text title="Website">www</InputGroup.Text>
-                  </InputGroup.Prepend>
-                  <Form.Control type="text" placeholder="Website" defaultValue={p.website} />
-                </InputGroup>
+            <Form.Group as={Col} controlId="website">
+              <InputGroup>
+                <InputGroup.Prepend>
+                  <InputGroup.Text title="Website">www</InputGroup.Text>
+                </InputGroup.Prepend>
+                <Form.Control type="text" placeholder="Website" defaultValue={p.website} onChange={this.updateState}/>
+              </InputGroup>
             </Form.Group>
           </Form.Row>
 
           <Form.Row>
-            <Form.Group as={Col} controlId="formHorizontalPhone">
+            <Form.Group as={Col} controlId="phone">
               <InputGroup>
                 <InputGroup.Prepend>
                   <InputGroup.Text title="Phone">&#9742;</InputGroup.Text>
                 </InputGroup.Prepend>
-                <Form.Control type="text" placeholder="Phone" defaultValue={p.phone} />
+                <Form.Control type="text" placeholder="Phone" defaultValue={p.phone} onChange={this.updateState}/>
               </InputGroup>
             </Form.Group>
 
-            <Form.Group as={Col} controlId="formHorizontalEmail">
+            <Form.Group as={Col} controlId="email">
               <InputGroup>
                 <InputGroup.Prepend>
                   <InputGroup.Text title="Email">@</InputGroup.Text>
                 </InputGroup.Prepend>
-                <Form.Control type="email" placeholder="Email" defaultValue={p.email} />
+                <Form.Control type="email" placeholder="Email" defaultValue={p.email} onChange={this.updateState}/>
               </InputGroup>
             </Form.Group>
           </Form.Row>
 
           <Form.Row>
-            <Form.Group as={Col} controlId="formHorizontalLatitude">
+            <Form.Group as={Col} controlId="lat">
               <InputGroup>
                 <InputGroup.Prepend>
                   <InputGroup.Text title="Latitue">lat</InputGroup.Text>
                 </InputGroup.Prepend>
-                <Form.Control type="text" placeholder="Latitude" defaultValue={p.lat} />
+                <Form.Control type="text" placeholder="Latitude" defaultValue={p.lat} onChange={this.updateState}/>
               </InputGroup>
             </Form.Group>
 
-            <Form.Group as={Col} controlId="formHorizontalLongitude">
+            <Form.Group as={Col} controlId="lon">
               <InputGroup>
                 <InputGroup.Prepend>
                   <InputGroup.Text title="Longitude">lon</InputGroup.Text>
                 </InputGroup.Prepend>
-                <Form.Control type="text" placeholder="Longitude" defaultValue={p.lon} />
+                <Form.Control type="text" placeholder="Longitude" defaultValue={p.lon} onChange={this.updateState}/>
               </InputGroup>
             </Form.Group>
           </Form.Row>
 
-          <Form.Group as={Form.Row} controlId="formHorizontalTags">
+          <Form.Group as={Form.Row} controlId="tags">
             <Form.Label column sm={1}>Tags</Form.Label>
             <Col sm={11}>
-              <Form.Control type="text" placeholder="List of tags, separated by commas" defaultValue={tags} />
+              <Form.Control type="text" placeholder="List of tags, separated by commas" defaultValue={tags} onChange={this.updateState}/>
             </Col>
           </Form.Group>
         </Form>
@@ -152,49 +199,16 @@ class PlaceForm extends React.Component<Props, State> {
             </Accordion.Toggle>
             <Accordion.Collapse eventKey="hours">
               <Card.Body>
-              <Form>
-                <Form.Group as={Form.Row} controlId="formHorizontalOpeningHours1">
-                  <Form.Label column sm={1}>Sun</Form.Label>
-                  <Col sm={2}><Form.Control type="text" placeholder="From" defaultValue={p.opening_hours.sun_open} /></Col>-
-                  <Col sm={2}><Form.Control type="text" placeholder="To" defaultValue={p.opening_hours.sun_close} /></Col>
-                </Form.Group>
-
-                <Form.Group as={Form.Row} controlId="formHorizontalOpeningHours2">
-                  <Form.Label column sm={1}>Mon</Form.Label>
-                  <Col sm={2}><Form.Control type="text" placeholder="From" defaultValue={p.opening_hours.mon_open} /></Col>-
-                  <Col sm={2}><Form.Control type="text" placeholder="To" defaultValue={p.opening_hours.mon_close} /></Col>
-                </Form.Group>
-
-                <Form.Group as={Form.Row} controlId="formHorizontalOpeningHours3">
-                  <Form.Label column sm={1}>Tue</Form.Label>
-                  <Col sm={2}><Form.Control type="text" placeholder="From" defaultValue={p.opening_hours.tue_open} /></Col>-
-                  <Col sm={2}><Form.Control type="text" placeholder="To" defaultValue={p.opening_hours.tue_close} /></Col>
-                </Form.Group>
-
-                <Form.Group as={Form.Row} controlId="formHorizontalOpeningHours4">
-                  <Form.Label column sm={1}>Wed</Form.Label>
-                  <Col sm={2}><Form.Control type="text" placeholder="From" defaultValue={p.opening_hours.wed_open} /></Col>-
-                  <Col sm={2}><Form.Control type="text" placeholder="To" defaultValue={p.opening_hours.wed_close} /></Col>
-                </Form.Group>
-
-                <Form.Group as={Form.Row} controlId="formHorizontalOpeningHours5">
-                  <Form.Label column sm={1}>Thu</Form.Label>
-                  <Col sm={2}><Form.Control type="text" placeholder="From" defaultValue={p.opening_hours.thu_open} /></Col>-
-                  <Col sm={2}><Form.Control type="text" placeholder="To" defaultValue={p.opening_hours.thu_close} /></Col>
-                </Form.Group>
-
-                <Form.Group as={Form.Row} controlId="formHorizontalOpeningHours6">
-                  <Form.Label column sm={1}>Fri</Form.Label>
-                  <Col sm={2}><Form.Control type="text" placeholder="From" defaultValue={p.opening_hours.fri_open} /></Col>-
-                  <Col sm={2}><Form.Control type="text" placeholder="To" defaultValue={p.opening_hours.fri_close} /></Col>
-                </Form.Group>
-
-                <Form.Group as={Form.Row} controlId="formHorizontalOpeningHours7">
-                  <Form.Label column sm={1}>Sat</Form.Label>
-                  <Col sm={2}><Form.Control type="text" placeholder="From" defaultValue={p.opening_hours.sat_open} /></Col>-
-                  <Col sm={2}><Form.Control type="text" placeholder="To" defaultValue={p.opening_hours.sat_close} /></Col>
-                </Form.Group>
-              </Form>
+                <Form>
+                  {['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'].map(day => (
+                    <Form.Group as={Form.Row} key={day}>
+                      <Form.Label column sm={1}>{day.charAt(0).toUpperCase() + day.slice(1)}</Form.Label>
+                      <Col sm={2}><Form.Control type="text" placeholder="From" defaultValue={p.opening_hours[day+"_open"]} onBlur={this.updateTime} id={"opening_hours."+day+"_open"}/></Col>-
+                      <Col sm={2}><Form.Control type="text" placeholder="To" defaultValue={p.opening_hours[day+"_close"]} onBlur={this.updateTime} id={"opening_hours."+day+"_close"}/></Col>
+                    </Form.Group>
+                  ))
+                  }
+                </Form>
               </Card.Body>
             </Accordion.Collapse>
           </Card>
@@ -222,7 +236,7 @@ class PlaceForm extends React.Component<Props, State> {
       </Container>
     );
   }
-};
+}
 
 export const CreatePlaceFormModal = ({ show, handleClose }: CreateModalProps) => {
   return (
