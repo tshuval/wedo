@@ -25,7 +25,7 @@ class SearchCombo extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = { value: '', tags: null };
-    //this.getPlaces();
+    // this.getPlaces();
     this.props.updateSearchValue('');
   }
   timer: TimeoutID;
@@ -41,11 +41,11 @@ class SearchCombo extends React.Component<Props, State> {
         if (this.state.value.length === 0) {
           // Searchbox is empty, so clear the tags and reload the list of places
           this.setState(
-            {tags: null},
+            { tags: null },
             () => {
               this.refreshPlaces();
             }
-          )
+          );
         }
         // Searchbox has at least one character, so fetch matching tags
         if (this.state.value.length > 1) {
@@ -65,7 +65,7 @@ class SearchCombo extends React.Component<Props, State> {
   refreshPlaces = () => {
     // Called to refresh the list of places
     this.props.updateSearchValue(this.state.value);
-    this.props.doFetchPlaces()
+    this.props.doFetchPlaces();
   };
 
   getTags = async () => {
@@ -103,7 +103,7 @@ class SearchCombo extends React.Component<Props, State> {
 
 const mapDispatchToProps = {
   updateSearchValue,
-  doFetchPlaces
-}
+  doFetchPlaces,
+};
 
 export default connect(null, mapDispatchToProps)(SearchCombo);

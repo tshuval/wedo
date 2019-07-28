@@ -16,7 +16,7 @@ const setError = (message: string) => (
 
 const setSuccess = (message: string) => (
   store.dispatch(setNotification('success', message))
-)
+);
 
 export class BackendClient {
   // Get list of tags matching 'q'

@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import store from './store';
 import Page from './components/Page';
 
-function App () {
+function App() {
   return (
     <Provider store={store}>
       <Page />

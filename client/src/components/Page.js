@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import { connect } from 'react-redux';
-import {NotificationContainer, NotificationManager} from 'react-notifications';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
 
 // bootstrap objects
 import Col from 'react-bootstrap/Col';
@@ -45,25 +45,25 @@ class Page extends React.Component<Props, State> {
     super(props);
     this.state = {
       showCreatePlace: false,
-      showPlaceDetails: false
+      showPlaceDetails: false,
     };
     this.props.doFetchPlaces();
   }
 
   handleShow = () => (
-    this.setState({showCreatePlace: true})
+    this.setState({ showCreatePlace: true })
   )
 
   handleClose = () => (
-    this.setState({showCreatePlace: false})
+    this.setState({ showCreatePlace: false })
   )
 
   handleShowDetails = () => {
-    this.setState({showPlaceDetails: true});
+    this.setState({ showPlaceDetails: true });
   }
 
   handleCloseDetails = () => (
-    this.setState({showPlaceDetails: false})
+    this.setState({ showPlaceDetails: false })
   )
 
   showNotification = (notification: {type: string, message: string}) => {
@@ -139,21 +139,21 @@ class Page extends React.Component<Props, State> {
         {this.props.notification && this.showNotification(this.props.notification)}
       </Container>
     );
-  };
+  }
 }
 
 const mapStateToProps = (state) => {
   return {
     places: state.places,
     currentPlace: state.currentPlace,
-    notification: state.notification
+    notification: state.notification,
   };
-}
+};
 
 const mapDispatchToProps = {
   doFetchPlaces,
   resetCurrentPlace,
   clearNotification,
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Page);

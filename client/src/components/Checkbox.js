@@ -29,11 +29,11 @@ class Checkbox extends React.Component<Props> {
       />
     );
   }
-};
+}
 
 const mapDispatchToProps = {
   toggleOpenNow,
-  doFetchPlaces
-}
+  doFetchPlaces,
+};
 
 export default connect(null, mapDispatchToProps)(Checkbox);

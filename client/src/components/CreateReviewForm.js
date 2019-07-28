@@ -27,7 +27,7 @@ export class CreateReviewForm extends React.Component<Props, State> {
       description: '',
       username: '',
       score: 5,
-      isSaving: false
+      isSaving: false,
     };
   }
   isSaving: boolean;
@@ -35,10 +35,10 @@ export class CreateReviewForm extends React.Component<Props, State> {
   handleSave = (e: SyntheticEvent<*>) => {
     e.preventDefault();
     this.setState(
-      {isSaving: true},
+      { isSaving: true },
       () => {
         this.save();
-        this.setState({isSaving: false});
+        this.setState({ isSaving: false });
       }
     );
   }
@@ -49,13 +49,13 @@ export class CreateReviewForm extends React.Component<Props, State> {
   }
 
   updateDescription = (e: SyntheticInputEvent<*>) =>
-    this.setState({description: e.target.value});
+    this.setState({ description: e.target.value });
 
   updateUsername = (e: SyntheticInputEvent<*>) =>
-    this.setState({username: e.target.value});
+    this.setState({ username: e.target.value });
 
   updateScore = (e: SyntheticInputEvent<*>) =>
-    this.setState({score: Number(e.target.value)});
+    this.setState({ score: Number(e.target.value) });
 
   render() {
     return (
@@ -80,6 +80,6 @@ export class CreateReviewForm extends React.Component<Props, State> {
           </Col>
         </Form.Group>
       </Form>
-    )
+    );
   }
 }

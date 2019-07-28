@@ -12,31 +12,31 @@ export const SET_NOTIFICATION = 'SET_NOTIFICATION';
 export const CLEAR_NOTIFICATION = 'CLEAR_NOTIFICATION';
 
 export const updateSearchValue = (value) => (
-  {type: UPDATE_SEARCH_VALUE, payload: value}
+  { type: UPDATE_SEARCH_VALUE, payload: value }
 );
 
 export const updatePlaceList = (places) => (
-  {type: UPDATE_PLACES, payload: places}
+  { type: UPDATE_PLACES, payload: places }
 );
 
 export const updateCurrentPlace = (place) => (
-  {type: UPDATE_CURRENT_PLACE, payload: place}
-)
+  { type: UPDATE_CURRENT_PLACE, payload: place }
+);
 
 export const toggleOpenNow = () => (
-  {type: TOGGLE_OPEN_NOW}
+  { type: TOGGLE_OPEN_NOW }
 );
 
 export const resetCurrentPlace = () => (
-  {type: RESET_CURRENT_PLACE}
+  { type: RESET_CURRENT_PLACE }
 );
 
 export const setNotification = (type, message) => (
-  {type: SET_NOTIFICATION, payload: {type: type, message: message}}
+  { type: SET_NOTIFICATION, payload: { type: type, message: message } }
 );
 
 export const clearNotification = () => (
-  {type: CLEAR_NOTIFICATION}
+  { type: CLEAR_NOTIFICATION }
 );
 
 export const doFetchPlaces = () => {
@@ -46,15 +46,15 @@ export const doFetchPlaces = () => {
     let places = [];
     places = await connection.getPlaces(q, openNow);
     dispatch(updatePlaceList(places));
-  }
+  };
 };
 
 export const doGetPlace = (placeId) => {
   return async (dispatch, getState) => {
     let place = await connection.getPlace(placeId);
     dispatch(updateCurrentPlace(place));
-  }
-}
+  };
+};
 
 export const doSavePlace = (place) => {
   return async (dispatch, getState) => {
@@ -68,5 +68,5 @@ export const doSavePlace = (place) => {
       dispatch(resetCurrentPlace());
     }
     dispatch(doFetchPlaces());
-  }
-}
+  };
+};

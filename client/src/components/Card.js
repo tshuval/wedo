@@ -26,7 +26,7 @@ class ACard extends React.Component<Props> {
       name,
       description,
       address,
-      score
+      score,
     } = this.props;
 
     return (
@@ -34,7 +34,7 @@ class ACard extends React.Component<Props> {
         <Card.Body>
           <Card.Title>
             {name}&nbsp;
-            {score === 0 && <Badge variant='light'>No reviews yet</Badge>}
+            {score === 0 && <Badge variant="light">No reviews yet</Badge>}
             {score > 0 && <Badge variant={score < 3 ? 'danger' : 'warning'}>{score}&#9733;</Badge>}
           </Card.Title>
           <Card.Subtitle className="mb-2 text-muted">{address}</Card.Subtitle>
@@ -48,6 +48,6 @@ class ACard extends React.Component<Props> {
 
 const mapDispatchToProps = {
   doGetPlace,
-}
+};
 
 export default connect(null, mapDispatchToProps)(ACard);
