@@ -55,3 +55,18 @@ export const doGetPlace = (placeId) => {
     dispatch(updateCurrentPlace(place));
   }
 }
+
+export const doSavePlace = (place) => {
+  return async (dispatch, getState) => {
+    if (place.id) {
+      // Existing place
+      await connection.updatePlace(place.id, place);
+      dispatch(resetCurrentPlace());
+    } else {
+      // New place
+      await connection.createPlace(place);
+      dispatch(resetCurrentPlace());
+    }
+    dispatch(doFetchPlaces());
+  }
+}

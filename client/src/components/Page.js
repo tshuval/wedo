@@ -15,7 +15,7 @@ import Container from 'react-bootstrap/Container';
 import SearchCombo from './SearchCombo';
 import Checkbox from './Checkbox';
 import { CardList } from './CardList';
-import { CreatePlaceFormModal, PlaceDetailsModal } from './Place';
+import PlaceForm from './Place';
 import Map from './Map';
 
 import type { PlaceProps } from '../types';
@@ -59,7 +59,6 @@ class Page extends React.Component<Props, State> {
   )
 
   handleShowDetails = () => {
-    console.log('handling')
     this.setState({showPlaceDetails: true});
   }
 
@@ -118,9 +117,23 @@ class Page extends React.Component<Props, State> {
 
         </Row>
 
-        <CreatePlaceFormModal show={this.state.showCreatePlace} handleClose={this.handleClose} />
+        <PlaceForm
+          show={this.state.showCreatePlace}
+          handleClose={this.handleClose}
+          title="Create a New Place"
+          saveButtonText="Create"
+        />
         {this.props.currentPlace &&
-          <PlaceDetailsModal show={true} handleClose={this.props.resetCurrentPlace} place={this.props.currentPlace} />}
+          <PlaceForm
+            show={true}
+            handleClose={this.props.resetCurrentPlace}
+            title="Place Details"
+            saveButtonText="Save Changes"
+            // place={this.props.currentPlace}
+            place={this.props.currentPlace.place}
+            tags={this.props.currentPlace.tags}
+            reviews={this.props.currentPlace.latest_reviews}
+          />}
 
         <NotificationContainer/>
         {this.props.notification && this.showNotification(this.props.notification)}
