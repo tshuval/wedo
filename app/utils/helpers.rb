@@ -7,7 +7,7 @@ end
 
 def is_time?(t)
   # Returns true if 't' is in the form "10:00"
-  Time.strptime(t, '%R')
+  t == nil || Time.strptime(t, '%R')
   true
 rescue ArgumentError
   false

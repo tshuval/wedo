@@ -7,6 +7,7 @@ require 'helpers'
 
 RSpec.describe 'is_time?' do
   it 'returns false if the value is not time' do
+    expect(is_time?(nil)).to be(true)
     expect(is_time?('18:00')).to be(true)
     expect(is_time?('18:61')).to be(false)
     expect(is_time?('28:00')).to be(false)
