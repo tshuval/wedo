@@ -8,7 +8,7 @@ import Checkbox from '../components/Checkbox';
 import ACard from '../components/Card';
 import { CardList } from '../components/CardList';
 import { Review } from '../components/Review';
-import { CreatePlaceFormModal } from '../components/Place';
+import PlaceForm from '../components/Place';
 import { SearchBox } from '../components/SearchBox';
 import SearchCombo from '../components/SearchCombo';
 import Button from 'react-bootstrap/Button';
@@ -49,7 +49,7 @@ storiesOf('Review', module)
   .add('review', () => <Review {...review} />);
 
 storiesOf('Place', module)
-  .add('form', () => <CreatePlaceFormModal show={true} handleClose={dummyFunction} />);
+  .add('form', () => <PlaceForm show={true} handleClose={dummyFunction} />);
 
 storiesOf('CardList', module)
   .add('card list', () => <CardList places={[card, card, card]} />);
