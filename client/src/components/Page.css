@@ -1,0 +1,31 @@
+.containerStyle {
+  height: 100%;
+}
+
+.contentStyle {
+  height: 100%;
+}
+
+.rightSide {
+  height: 100%;
+}
+
+.leftSide {
+  height: 100%;
+}
+
+.listStyle {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.navStyle {
+  display: flex;
+  justify-content: space-between;
+}
+
+.mapContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
