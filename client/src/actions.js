@@ -50,14 +50,14 @@ export const doFetchPlaces = () => {
 };
 
 export const doGetPlace = (placeId) => {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
     let place = await connection.getPlace(placeId);
     dispatch(updateCurrentPlace(place));
   };
 };
 
 export const doSavePlace = (place) => {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
     if (place.id) {
       // Existing place
       await connection.updatePlace(place.id, place);

@@ -25,7 +25,7 @@ class Map extends React.Component<Props, State> {
     };
   }
 
-  onMarkerClick = (props, marker, e) => {
+  onMarkerClick = (props, marker) => {
     this.setState({
       selectedPlace: props.data,
       activeMarker: marker,
@@ -33,7 +33,7 @@ class Map extends React.Component<Props, State> {
     });
   }
 
-  onMapClicked = (props) => {
+  onMapClicked = () => {
     if (this.state.showingInfoWindow) {
       this.setState({
         showingInfoWindow: false,
@@ -65,7 +65,11 @@ class Map extends React.Component<Props, State> {
         >
           <div>
             <strong>{this.state.selectedPlace.name} </strong>
-            {this.state.selectedPlace.average_score > 0 && <Badge variant={this.state.selectedPlace.average_score < 3 ? 'danger' : 'warning'}>{this.state.selectedPlace.average_score}&#9733;</Badge>}
+            {this.state.selectedPlace.average_score > 0 &&
+              <Badge
+                variant={this.state.selectedPlace.average_score < 3 ? 'danger' : 'warning'}>
+                {this.state.selectedPlace.average_score}&#9733;
+              </Badge>}
           </div>
         </InfoWindow>
       </GoogleMap>

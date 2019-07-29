@@ -216,8 +216,10 @@ class PlaceForm extends React.Component<Props, State> {
                       {['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'].map(day => (
                         <Form.Group as={Form.Row} key={day}>
                           <Form.Label column sm={1}>{day.charAt(0).toUpperCase() + day.slice(1)}</Form.Label>
-                          <Col sm={2}><Form.Control type="text" placeholder="From" defaultValue={p.opening_hours[day + '_open']} onBlur={this.updateTime} id={'opening_hours.' + day + '_open'}/></Col>-
-                          <Col sm={2}><Form.Control type="text" placeholder="To" defaultValue={p.opening_hours[day + '_close']} onBlur={this.updateTime} id={'opening_hours.' + day + '_close'}/></Col>
+                          <Col sm={2}><Form.Control type="text" placeholder="From" defaultValue={p.opening_hours[day + '_open']}
+                            onBlur={this.updateTime} id={'opening_hours.' + day + '_open'}/></Col>-
+                          <Col sm={2}><Form.Control type="text" placeholder="To" defaultValue={p.opening_hours[day + '_close']}
+                            onBlur={this.updateTime} id={'opening_hours.' + day + '_close'}/></Col>
                         </Form.Group>
                       ))
                       }

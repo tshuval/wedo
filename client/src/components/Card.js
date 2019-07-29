@@ -17,7 +17,7 @@ type Props = {|
 |};
 
 class ACard extends React.Component<Props> {
-  handleClick = (e: SyntheticEvent<*>) => (
+  handleClick = () => (
     this.props.doGetPlace(this.props.id)
   );
 

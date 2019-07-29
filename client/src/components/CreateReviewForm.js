@@ -44,8 +44,7 @@ export class CreateReviewForm extends React.Component<Props, State> {
   }
 
   save = async () => {
-    let review = await connection.createReview(this.props.placeId, this.state);
-    console.log(review);
+    await connection.createReview(this.props.placeId, this.state);
   }
 
   updateDescription = (e: SyntheticInputEvent<*>) =>

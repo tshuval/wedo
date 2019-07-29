@@ -10,5 +10,7 @@ type Props = {|
 |};
 
 export const Review = ({ username, description, score }: Props) => (
-  <ListGroup.Item>{description} <cite className="text-muted">({username})</cite> <Badge variant={score < 3 ? 'danger' : 'warning'}>{score}&#9733;</Badge></ListGroup.Item>
+  <ListGroup.Item>{description} <cite className="text-muted">({username})</cite>&nbsp;
+    <Badge variant={score < 3 ? 'danger' : 'warning'}>{score}&#9733;</Badge>
+  </ListGroup.Item>
 );
