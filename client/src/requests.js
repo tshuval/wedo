@@ -1,12 +1,22 @@
 // @flow
 import axios from 'axios';
 import type { PlaceProps, ReviewProps } from './types';
+import { setNotification } from './actions';
+import store from './store';
 
 axios.defaults.baseURL = process.env.REACT_APP_SERVER;
 
 // We are sending the client's timezone offset to the server to calculate
 // the user's time
 const tzOffset = new Date().getTimezoneOffset() * -60;
+
+const setError = (message: string) => (
+  store.dispatch(setNotification('error', message))
+);
+
+const setSuccess = (message: string) => (
+  store.dispatch(setNotification('success', message))
+);
 
 export class BackendClient {
   // Get list of tags matching 'q'
@@ -15,7 +25,7 @@ export class BackendClient {
       const response = await axios.get('/tags?q=' + q);
       return response.data.tags;
     } catch (error) {
-      console.error(error);
+      setError(error.response.data.message);
     }
   }
 
@@ -37,7 +47,7 @@ export class BackendClient {
       const response = await axios.get('/places', { params: params });
       return response.data.places;
     } catch (error) {
-      console.error(error);
+      setError(error.response.data.message);
     }
   }
 
@@ -47,7 +57,7 @@ export class BackendClient {
       const response = await axios.get('/places/' + placeId + '/reviews');
       return response.data;
     } catch (error) {
-      console.error(error);
+      setError(error.response.data.message);
     }
   }
 
@@ -57,7 +67,7 @@ export class BackendClient {
       const response = await axios.get('/places/' + placeId);
       return response.data;
     } catch (error) {
-      console.error(error);
+      setError(error.response.data.message);
     }
   }
 
@@ -65,9 +75,10 @@ export class BackendClient {
   createPlace = async (placeParams: PlaceProps) => {
     try {
       const response = await axios.post('/places/', placeParams);
+      setSuccess('Place created successfully');
       return response.data;
     } catch (error) {
-      console.error(error);
+      setError(error.response.data.message);
     }
   }
 
@@ -75,9 +86,10 @@ export class BackendClient {
   updatePlace = async (placeId: string, placeParams: PlaceProps) => {
     try {
       const response = await axios.put('/places/' + placeId, placeParams);
+      setSuccess('Place updated successfully');
       return response.data;
     } catch (error) {
-      console.error(error);
+      setError(error.response.data.message);
     }
   }
 
@@ -85,9 +97,10 @@ export class BackendClient {
   createReview = async (placeId: string, reviewParams: ReviewProps) => {
     try {
       const response = await axios.post('/places/' + placeId + '/reviews', reviewParams);
+      setSuccess('Review created successfully');
       return response.data;
     } catch (error) {
-      console.error(error);
+      setError(error.response.data.message);
     }
   }
 }

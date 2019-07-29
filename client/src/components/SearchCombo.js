@@ -1,15 +1,19 @@
 // @flow
 import React from 'react';
+import { connect } from 'react-redux';
 import Dropdown from 'react-bootstrap/Dropdown';
 import FormControl from 'react-bootstrap/FormControl';
 
 import { BackendClient } from '../requests';
+import { updateSearchValue, doFetchPlaces } from '../actions';
 
 let connection = new BackendClient();
 
 type Props = {|
   style?: string,
-  className?: string
+  className?: string,
+  updateSearchValue: (string) => void,
+  doFetchPlaces: () => void
 |};
 
 type State = {|
@@ -17,22 +21,34 @@ type State = {|
   tags: ?[]
 |};
 
-export class SearchCombo extends React.Component<Props, State> {
+class SearchCombo extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = { value: '', tags: null };
-    this.getPlaces();
+    // this.getPlaces();
+    this.props.updateSearchValue('');
   }
   timer: TimeoutID;
 
   handleChange = (e: SyntheticInputEvent<*>) => {
+    // Called whenever the value in the searchbox changes
     this.setState(
       { value: e.target.value },
       () => {
         if (this.timer) {
           clearTimeout(this.timer);
         }
-        if (this.state.value.length !== 1) {
+        if (this.state.value.length === 0) {
+          // Searchbox is empty, so clear the tags and reload the list of places
+          this.setState(
+            { tags: null },
+            () => {
+              this.refreshPlaces();
+            }
+          );
+        }
+        // Searchbox has at least one character, so fetch matching tags
+        if (this.state.value.length > 1) {
           this.timer = setTimeout(() => this.getTags(), 200);
         }
       }
@@ -40,27 +56,22 @@ export class SearchCombo extends React.Component<Props, State> {
   }
 
   handleSelection = (e: SyntheticEvent<*>) => {
+    // Called when the user selects a tag from the drop down
     this.setState(
       { value: e.toString(), tags: null },
-      () => {
-        this.getPlaces();
-      });
+      () => this.refreshPlaces());
   }
+
+  refreshPlaces = () => {
+    // Called to refresh the list of places
+    this.props.updateSearchValue(this.state.value);
+    this.props.doFetchPlaces();
+  };
 
   getTags = async () => {
-    let tags = [];
-    if (this.state.value === '') {
-      tags = null;
-    } else {
-      tags = await connection.getTags(this.state.value);
-    }
+    // Fetches a list of tags from the server
+    let tags = await connection.getTags(this.state.value);
     this.setState({ tags });
-  }
-
-  getPlaces = async () => {
-    let places = [];
-    places = await connection.getPlaces(this.state.value);
-    // TODO: something with the list of places
   }
 
   render() {
@@ -78,6 +89,7 @@ export class SearchCombo extends React.Component<Props, State> {
           placeholder="Start typing..."
           onChange={this.handleChange}
           value={value}
+          type="search"
         />
         <ul className="list-unstyled">
           {tags && tags.length > 0 && tags.map(tag => (
@@ -88,3 +100,10 @@ export class SearchCombo extends React.Component<Props, State> {
     );
   }
 }
+
+const mapDispatchToProps = {
+  updateSearchValue,
+  doFetchPlaces,
+};
+
+export default connect(null, mapDispatchToProps)(SearchCombo);

@@ -35,6 +35,8 @@ class Place < ApplicationRecord
       description: description,
       address: address,
       average_score: average_score,
+      lat: lat,
+      lon: lon
     }
   end
 end

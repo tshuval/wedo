@@ -11,7 +11,7 @@ class PlacesController < ApplicationController
 
   # GET /places [optional 'q' and 'open_now']
   def index
-    places = Place.active
+    places = Place.active.order(average_score: :desc)
     q = params[:q]
     if q
       # Sanitize the q param and find in 'tags' table, and then all matching places
@@ -30,7 +30,7 @@ class PlacesController < ApplicationController
   def show
     # Return the place with 5 recent reviews
     place = Place.active.find(params[:id])
-    latest_reviews = Review.where(place: params[:id]).order(created_at: :desc).limit(5)
+    latest_reviews = Review.where(place: params[:id]).order(created_at: :desc).limit(3)
     render json: { 'place': place, 'latest_reviews': latest_reviews,
                    'tags': place.tags.map(&:name) }
   end
